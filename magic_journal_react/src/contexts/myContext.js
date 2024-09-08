@@ -4,10 +4,17 @@ import React, { createContext, useState } from "react";
 const MyContext = createContext();
 
 const MyContextProvider = ({ children }) => {
-  const [counter, setCounter] = useState(0);
+  const [userProfile, setUserProfile] = useState({
+    id: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    createdAt: "",
+    updatedAt: "",
+  });
 
   return (
-    <MyContext.Provider value={{ counter, setCounter }}>
+    <MyContext.Provider value={{ userProfile, setUserProfile }}>
       {children}
     </MyContext.Provider>
   );
