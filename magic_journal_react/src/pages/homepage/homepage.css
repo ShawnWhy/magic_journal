@@ -1,0 +1,12 @@
+.sidebar{
+border:1px solid black;
+display:flex;
+flex-direction: column;
+text-align: center;
+height:80%;
+}
+
+.userinput{
+    width:80%;
+    margin-top:1%
+}
