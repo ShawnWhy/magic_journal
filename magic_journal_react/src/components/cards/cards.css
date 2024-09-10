@@ -263,3 +263,29 @@ left:0% ! important;
     padding:20px;
 }
 
+.card{
+    position:absolute;
+    width:15%;
+    left:43%;
+    opacity: 0;
+}
+
+.cardContainer{
+
+    top:50%;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position:absolute;
+}
+.card:hover{
+    top:-30px;
+    /* width:20%; */
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    transition: all .3s;
+}

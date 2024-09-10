@@ -13,6 +13,9 @@ const MyContextProvider = ({ children }) => {
     updatedAt: "",
   });
 
+  const[selectedCards, setSelectedCards]= useState([]);
+  
+
   return (
     <MyContext.Provider value={{ userProfile, setUserProfile }}>
       {children}
