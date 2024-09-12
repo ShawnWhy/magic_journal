@@ -2,40 +2,15 @@ import axios from "axios";
 
 
 export default {
-  getFavorites: function(){
-    console.log("gettingfavs")
-    return axios.get("/api/getFavs");
+  getSpreadbyID: function(){
+    console.log("getting spreads")
+    return axios.get("/api/getSpreadbyID");
 },
- getTopComments: function(){
-    console.log("gettingTopComments")
-    return axios.get("/api/getTopComments");
+getMonthSpreads: function(day){
+  console.log("getting spreads by month")
+  return axios.get("/api/getMonthSpreads");
 },
-getAllItems : function(){
-  console.log("gettingAll")
-  return axios.get("/api/alltheItems")
-},
-
-getMyItems : function(id){
-  console.log("getthing this one persons items")
-  console.log(id)
-  // id = id.toString()
-  return axios.get("/api/myItems/"+id)
-},
-
-getItemDetails : function(id){
-  console.log("getting details for this one object")
-  return axios.get ("/api/itemDetails/"+id)
-},
-getComments : function(id){
-console.log("getting all of the comments for this item ")
-return axios.get("/api/getComments/"+id)
-},
-
-getCommentsOtherUser : function(id){
-console.log(id)
-console.log("getting all of the comments for other User ")
-return axios.get("/api/getcommentsotheruser/"+id)
-},
+  
 
 signUp : function(body){
   console.log("signingup");
@@ -73,66 +48,6 @@ getOtherUserData: function(id){
   return axios.get("/api/otherUserData/"+id)
 },
 
-
-getPoints : function(id){
-  console.log("getting points")
-  return axios.get("/api/getPoints/"+ id)
-
-},
-
-changePoints : function(body, id){
-console.log("updating points")
-console.log(body)
-console.log(id)
-return axios.put("/api/changePoints/"+id, body)
-
-},
-updateLikes : function(body, id){
-  console.log("updating Likes")
-  console.log(body)
-  return axios.put("/api/updateLikes/"+id, body)
-},
-
-updateBids : function(body, id){
-  console.log("updating Bid")
-  console.log(body)
-  return axios.put("/api/updateBids/"+id, body)
-},
-
-updateVotes : function(id, body){
-  console.log("updating Vote")
-  console.log(body)
-  return axios.put("/api/updateVotes/"+id, body)
-},
-
-createLike : function(body){
-console.log("creating Like")
-console.log(body);
-return axios.post("/api/createLike",body);
-},
-
-
-createItem : function(body){
-console.log("creating")
-console.log(body);
-return axios.post("/api/createItem",body);
-},
-
-createBid: function(body){
-  console.log("creating bid")
-  return axios.post("/api/createBid",body)
-},
-
-createVote: function(body){
-  console.log("creating Vote")
-  return axios.post("/api/createVote",body)
-},
-
-postComment: function(body){
-  console.log("loggincomment")
-  console.log(body);
-  return axios.post("/api/postComment",body)
-},
 }
 
 
