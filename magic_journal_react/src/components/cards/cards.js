@@ -189,11 +189,12 @@ const Cards = function(props) {
   }
 
 
-  const selectCard = function (event) { 
-    var card = event.target;
-    selectedCards.push(card.getAttribute("name"));
-    card.style.opacity = "0";
-    card.style.transition = "opacity .3s";
+  const selectCard = function (cardname) { 
+    
+    
+    console.log(cardname);
+    selectedCards.push(cardname);
+   
     if(spread === "3_card_spread" && selectedCards.length === 3){
       console.log(selectedCards);
     }
@@ -209,11 +210,11 @@ const Cards = function(props) {
   const [spreadMode, setSpreadMode] = useState("3_card_spread");
 
   const selectSpread = function (event) {
-    if (event.target.value == "3_card_spread") {
+    if (spreadMode == "3_card_spread") {
       setSpreadMode("3_card_spread");
-    } else if (event.target.value == "Celtic_cross") {
+    } else if (spreadMode == "Celtic_cross") {
       setSpreadMode("Celctic_cross");
-    } else if (event.target.value == "mind_heart_body") {
+    } else if (spreadMode == "mind_heart_body") {
       setSpreadMode("mind_heart_body");
     }
   };
@@ -331,13 +332,17 @@ const Cards = function(props) {
   const [shuffledCards, setshuffledCards] = useState([]);
   function rotateCards(cards) {
     var cards = document.querySelectorAll(".card");
-    var angle = 220 / cards.length;
+    var angle = 360 / cards.length;
     cards.forEach((card, index) => {
       setTimeout(() => {
-      card.style.transform = `rotate(${angle * parseFloat(index) - 100}deg)`;
+        //transform rotation and translation
+
+card.style.transform = `rotate(${
+  angle * parseFloat(index) - 100
+}deg) translate(${parseFloat(index) * -.5}%, ${parseFloat(index) * .4}%)`;
       card.style.opacity = "1";
       // card.style.transitionDelay = `${index * 0.5}s`;
-      }, index * 20);
+      }, index * 10);
     });
   }
   function createCards() {
@@ -363,19 +368,16 @@ const Cards = function(props) {
       }
       // card.rotation = angle * parseFloat(index) - 100;
       card.rotation = 0;
-      console.log(card.name);
-      console.log(The_Chariot);
-      console.log(element.replace(/ /g, "_"));
       card.image = cardLibrary[element];
       // setTimeout(() => {
       randomCards.push(card);
       setTimeout(() => {
         rotateCards(randomCards);
-      }, 100);
+      }, 10);
     });
 
     setshuffledCards(randomCards);
-    console.log(cards);
+    
   }
 
   // const handleInputChange = function (event) {
@@ -396,6 +398,7 @@ const Cards = function(props) {
               transform: `rotate(${card.rotation}deg)`,
               // transitionDelay: `${index * .0001}s`,
             }}
+            onClick={()=>selectCard(card.name)}
           >
             <div className="card-back">
               <img src={card_back} alt="card-back"></img>

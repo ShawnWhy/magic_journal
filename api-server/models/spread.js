@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
     },
 
   });
-  return Reading
+  return Spread
 }
 
 // addressId: {
@@ -45,5 +45,5 @@ module.exports = function(sequelize, DataTypes) {
 //   references: {
 //       model: 'addresses',
 //       key: 'id'
-  }
-}
+//   }
+// }

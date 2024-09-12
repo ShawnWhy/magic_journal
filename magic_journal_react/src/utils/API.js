@@ -1,8 +1,16 @@
 import axios from "axios";
 
 
+
 export default {
-  getSpreadbyID: function(){
+
+getMockData: function(){
+  console.log("getting mock data")
+  return axios.get("/api/mockusers");
+},
+
+
+getSpreadbyID: function(){
     console.log("getting spreads")
     return axios.get("/api/getSpreadbyID");
 },
@@ -10,6 +18,8 @@ getMonthSpreads: function(day){
   console.log("getting spreads by month")
   return axios.get("/api/getMonthSpreads");
 },
+
+
   
 
 signUp : function(body){
@@ -49,6 +59,8 @@ getOtherUserData: function(id){
 },
 
 }
+
+
 
 
 

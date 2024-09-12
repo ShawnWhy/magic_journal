@@ -62,7 +62,7 @@ module.exports = function (app) {
       res.json(result);
     });
   });
-  
+
 
   app.get("/api/mockusers", (req, res) => {
     res.send(mockUsers);
@@ -149,6 +149,19 @@ module.exports = function (app) {
       res.json(result);
     });
   });
+
+  //get spread by id
+  app.get("/api/getSpreadById", function (req, res) {
+    console.log("getting spread");
+    db.Spread.findOne({
+      where: {
+        id: req.params.id,
+      },
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
+  
 
   //get all spreads for the month
   app.get("/api/getMonthSpreads", function (req, res) {

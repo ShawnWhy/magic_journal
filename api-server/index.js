@@ -37,90 +37,6 @@ var PORT = process.env.PORT || 8081;
 const server = require("http").createServer(app);
 var db = require("./models");
 
-var users = [];
-
-function randomColorBasedOnColor(color) {
-  // console.log(color);
-  //turn the color into rgb values
-  let colorRGB = color.match(/\d+/g);
-  //create a new color based on the color passed in plus or minis 50 if number is negative, number is 0
-  let random = Math.floor(Math.random() * 100) - 50;
-  let random2 = Math.floor(Math.random() * 100) - 50;
-  let random3 = Math.floor(Math.random() * 100) - 50;
-  let newRed = parseInt(colorRGB[0]) + random;
-  let newGreen = parseInt(colorRGB[1]) + random2;
-  let newBlue = parseInt(colorRGB[2]) + random3;
-  //check if the new color is within the rgb range
-  if (newRed > 255) {
-    newRed = 255;
-  }
-  if (newRed < 0) {
-    newRed = 0;
-  }
-  if (newGreen > 255) {
-    newGreen = 255;
-  }
-  if (newGreen < 0) {
-    newGreen = 0;
-  }
-  if (newBlue > 255) {
-    newBlue = 255;
-  }
-  if (newBlue < 0) {
-    newBlue = 0;
-  }
-  //return a random color
-  return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
-}
-
-function createNewUser(user, id) {
-  let newFingerColors = [];
-  let newButtonStates = [];
-  for (let i = 0; i < 27; i++) {
-    newFingerColors.push(randomColorBasedOnColor(user.color));
-  }
-
-  for (let i = 0; i < 9; i++) {
-    newButtonStates.push(false);
-  }
-  let newUser = {
-    name: user.name,
-    buttonStates: newButtonStates,
-    color: user.color,
-    fingerColors: newFingerColors,
-    socketid: id,
-  };
-
-  users.push(newUser);
-}
-
-function getRandomColor() {
-  //create a function that generates a random number
-  let random = Math.floor(Math.random() * 255);
-  let random2 = Math.floor(Math.random() * 255);
-  let random3 = Math.floor(Math.random() * 255);
-  //return a random color
-  return `rgb(${random}, ${random2}, ${random3})`;
-}
-
-//create a function that generates a splash item every ,5 seconds and give it the random color attribute and random size
-function generateSplash() {
-  //get height of the screen
-  //create a function that generates a random number
-  // let random = Math.floor(Math.random() * 100 + 20);
-  let randomHeight = Math.floor(Math.random() * 80) + 20;
-  let randomColor = getRandomColor();
-  let randomSize = Math.floor(Math.random() * 100) + 20;
-  let randomSpeed = Math.floor(Math.random() * 10) + 1;
-  return {
-    height: randomHeight,
-    color: randomColor,
-    size: randomSize,
-    speed: randomSpeed,
-  };
-}
-
-//use the server to run both mysql and socket.io
 
 var io = require("socket.io")(server, {
   cors: {
@@ -165,9 +81,6 @@ io.on("connection", (socket) => {
   //setinterval that sends the result of a generatesplath over to all users
 });
 
-setInterval(() => {
-  io.emit("generateSplash", generateSplash());
-}, 1500);
 
 db.sequelize.sync().then(function () {
   server.listen(PORT, function () {

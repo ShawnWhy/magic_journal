@@ -59,5 +59,5 @@ module.exports = function(sequelize, DataTypes) {
 //   references: {
 //       model: 'addresses',
 //       key: 'id'
-  }
-}
+//   }
+// }

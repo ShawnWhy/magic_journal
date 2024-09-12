@@ -6,6 +6,18 @@ import Cards from "../../components/cards/cards"
 
 function Homepage(props) {
 
+
+  useEffect(() => {  
+    console.log("home page use effect") 
+    API.getMockData().then((res)=>{
+      console.log(res.data);
+    } 
+    ).catch((err)=>{  
+      console.log(err);
+    }
+    )
+  }, []);
+
     const [warnMessageItem, setWarnMessageItem]= useState({
     status:"off",
     message:""

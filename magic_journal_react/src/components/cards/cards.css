@@ -266,22 +266,29 @@ left:0% ! important;
 .card{
     position:absolute;
     width:15%;
-    left:43%;
+    /* left:43%; */
     opacity: 0;
+    /* drop shadow */
+    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
 }
 
 .cardContainer{
 
-    top:50%;
-    width:100%;
+    top:30%;
+    width:80%;
+    left:10%;
+    margin:auto;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
     position:absolute;
 }
 .card:hover{
-    top:-30px;
-    transform: rotate(0deg);
+    top:-50px;
+    width:16%;
+    /* z-index:2; */
+    /* left:-5%; */
+    
     /* width:20%; */
 }
 
