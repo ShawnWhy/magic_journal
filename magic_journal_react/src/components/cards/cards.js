@@ -167,6 +167,17 @@ const cardLibrary = {
 };
 
 
+//set the windows size
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+//on windows resize, set the new width and height
+window.onresize = function () {
+  width = window.innerWidth;
+  height = window.innerHeight;
+};
+
+
 
 const Cards = function(props) {
   //using the main context
@@ -175,37 +186,40 @@ const Cards = function(props) {
 
   let selectedCards = [];
 
-
-  const clearTable = function() {
+  const clearTable = function () {
     var cards = document.querySelectorAll(".card");
     cards.forEach((card, index) => {
       setTimeout(() => {
-        
-      }, index*10);
-      card.style.transform = `rotate(0deg)`;
-      card.style.opacity = "0";
-      card.style.transition = "opacity .3s , transform .3s";
+          card.style.transform = `rotate(0deg)`;
+          card.style.opacity = "0";
+          card.style.transition = "opacity .3s , transform .3s";
+      }, index * 10);
+    
     });
-  }
+  };
 
-
-  const selectCard = function (cardname) { 
-    
-    
+  const selectCard = function (event, cardname) {
+    console.log(event);
+    //gradually decreate the opacity of the card and remove it after a 2 seconds
+    event.target.style.transition = "opacity 2s";
+    event.target.style.opacity = "0";
+    setTimeout(() => {
+      event.target.style.display = "none";
+    }, 2000);
     console.log(cardname);
     selectedCards.push(cardname);
-   
-    if(spread === "3_card_spread" && selectedCards.length === 3){
+    console.log(selectedCards);
+    console.log(spreadMode);
+
+    if (spreadMode === "3_card_spread" && selectedCards.length == 3) {
       console.log(selectedCards);
-    }
-    else if(spread === "Celtic_cross" && selectedCards.length === 10){
+      clearTable();
+    } else if (spreadMode === "Celtic_cross" && selectedCards.length == 10) {
       console.log(selectedCards);
-    }
-    else if(spread === "mind_heart_body" && selectedCards.length === 3){
+    } else if (spreadMode === "mind_heart_body" && selectedCards.length == 3) {
       console.log(selectedCards);
     }
   };
-
 
   const [spreadMode, setSpreadMode] = useState("3_card_spread");
 
@@ -329,19 +343,39 @@ const Cards = function(props) {
     }
   }
 
+  const amplitude = 150; // amplitude of the sine wave
+  const frequency = .0405; // frequency of the sine wave
+
   const [shuffledCards, setshuffledCards] = useState([]);
   function rotateCards(cards) {
+    let angleDivide;
+    if(width<768){
+      angleDivide = 360}
+    else{
+      angleDivide = 90
+    }
     var cards = document.querySelectorAll(".card");
-    var angle = 360 / cards.length;
+    var angle = angleDivide / cards.length;
     cards.forEach((card, index) => {
       setTimeout(() => {
+        let translateY;
+        let translateX;
+        if(width<768){
+          translateY = 0;
+          translateX=0;
+        }
+        else{
+          translateX = 5;
+        translateY = -1* Math.abs(Math.sin(parseFloat(index) * frequency) * amplitude);
+      }
         //transform rotation and translation
-
-card.style.transform = `rotate(${
-  angle * parseFloat(index) - 100
-}deg) translate(${parseFloat(index) * -.5}%, ${parseFloat(index) * .4}%)`;
-      card.style.opacity = "1";
-      // card.style.transitionDelay = `${index * 0.5}s`;
+        //set the Y translate to be on a curve
+        card.style.transform = `translate(${parseFloat(index) * translateX}%, 
+        ${translateY}px) rotate(${
+          angle * parseFloat(index) - 45
+        }deg)`;
+        card.style.opacity = "1";
+        // card.style.transitionDelay = `${index * 0.5}s`;
       }, index * 10);
     });
   }
@@ -377,7 +411,6 @@ card.style.transform = `rotate(${
     });
 
     setshuffledCards(randomCards);
-    
   }
 
   // const handleInputChange = function (event) {
@@ -398,7 +431,7 @@ card.style.transform = `rotate(${
               transform: `rotate(${card.rotation}deg)`,
               // transitionDelay: `${index * .0001}s`,
             }}
-            onClick={()=>selectCard(card.name)}
+            onClick={(event) => selectCard(event, card.name)}
           >
             <div className="card-back">
               <img src={card_back} alt="card-back"></img>
