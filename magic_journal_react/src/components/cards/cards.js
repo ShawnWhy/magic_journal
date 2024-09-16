@@ -181,8 +181,20 @@ window.onresize = function () {
 
 const Cards = function(props) {
   //using the main context
-  const contextValues = useContext(MyContext);
-  const { userProfile, setUserProfile } = contextValues || {};
+  const { userProfile, setUserProfile} = useContext(MyContext);
+  console.log("context")
+  console.log(MyContext);
+  console.log(userProfile)
+  
+  // setUserProfile({
+  //   id: "1111",
+  //   email: "something@something.com",
+  //   firstName: "Guest",
+  //   lastName: "User",
+  //   createdAt: "1/1/11",
+  //   updatedAt: "1/1/11",
+  // });
+  //put the context values into usestate
 
   let selectedCards = [];
 
@@ -379,6 +391,21 @@ const Cards = function(props) {
       }, index * 10);
     });
   }
+
+  function submitReading(cards, userid, spreadMode){
+
+    //if the cards variable is an array and has a length of greater than three
+    if (cards.length>3){
+      //get the current date
+      
+    //       userId: req.body.userId,
+    // date: req.body.date,
+    // spreadType: req.body.spreadType,
+    // cards: req.body.cards,
+      API.createSpread(cards.toString())
+    }
+
+  }
   function createCards() {
     var cards = majorArcana
       .concat(swords)
@@ -420,6 +447,7 @@ const Cards = function(props) {
   // };
 
   return (
+    
     <div className="row table">
       <div className="cardContainer">
         {shuffledCards.map((card, index) => (

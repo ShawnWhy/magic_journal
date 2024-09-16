@@ -26,8 +26,8 @@ function Homepage(props) {
 
   const contextValues = useContext(MyContext);
   const { userProfile, setUserProfile } = contextValues || {};
-
-
+console.log("home profile")
+console.log(userProfile);
 //useState my journals
   const [allMyJournals, setAllMyJournals]= useState([]);
 //useState 
@@ -77,11 +77,12 @@ function Homepage(props) {
 
 
 return (
-    <div>
-        <h1>Homepage</h1>
-        <Cards />
-    </div>
-)
+  <div>
+      <h1>Homepage</h1>
+      <Cards />
+    
+  </div>
+);
   }
 
 

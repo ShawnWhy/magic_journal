@@ -303,7 +303,7 @@ left:0% ! important;
 @media (max-width: 768px) {
 .card:hover{   
 
-    width:18%;
+    top:-5px
 }
 
 .cardContainer{

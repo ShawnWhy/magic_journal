@@ -286,7 +286,6 @@ app.post("/api/createJournal", function (req, res) {
   console.log(req.body);
   db.Journal.create({
     userId: req.body.userId,
-    date: req.body.date,
     writing: req.body.writing,
     symbols: req.body.symbols,
   })
@@ -306,7 +305,6 @@ app.post("/api/createSpread", function (req, res) {
   console.log(req.body);
   db.Spread.create({
     userId: req.body.userId,
-    date: req.body.date,
     spreadType: req.body.spreadType,
     cards: req.body.cards,
   })
@@ -326,7 +324,6 @@ app.post("/api/createDream", function (req, res) {
   console.log(req.body);
   db.Dream.create({
     userId: req.body.userId,
-    date: req.body.date,
     dream: req.body.dream,
     symbols: req.body.symbols,
   })
@@ -347,7 +344,6 @@ app.post("/api/createReading", function (req, res) {
   console.log(req.body);
   db.Reading.create({
     userId: req.body.userId,
-    date: req.body.date,
     spreadId: req.body.spreadId,
     readerId: req.body.readerId,
     readerName: req.body.readerName,

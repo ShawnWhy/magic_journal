@@ -9,7 +9,10 @@ getMockData: function(){
   return axios.get("/api/mockusers");
 },
 
-
+createSpread: function(body){
+  console.log(body)
+  return axios.post("/api/createSpread", body)
+},
 getSpreadbyID: function(){
     console.log("getting spreads")
     return axios.get("/api/getSpreadbyID");
