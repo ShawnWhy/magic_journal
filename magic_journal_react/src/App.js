@@ -11,8 +11,7 @@ function App() {
       
     id: "1111",
     email: "something@something.com",
-    firstName: "Guest",
-    lastName: "user"   
+   name:"guest user"  
     }
   )
   return (

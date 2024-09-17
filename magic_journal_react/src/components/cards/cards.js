@@ -226,6 +226,7 @@ const Cards = function(props) {
     if (spreadMode === "3_card_spread" && selectedCards.length == 3) {
       console.log(selectedCards);
       clearTable();
+      submitSpread(selectedCards);
     } else if (spreadMode === "Celtic_cross" && selectedCards.length == 10) {
       console.log(selectedCards);
     } else if (spreadMode === "mind_heart_body" && selectedCards.length == 3) {
@@ -392,17 +393,31 @@ const Cards = function(props) {
     });
   }
 
-  function submitReading(cards, userid, spreadMode){
+  function submitSpread(cards){
+console.log(cards);
+      console.log("submitSpread");
 
     //if the cards variable is an array and has a length of greater than three
-    if (cards.length>3){
-      //get the current date
-      
-    //       userId: req.body.userId,
-    // date: req.body.date,
-    // spreadType: req.body.spreadType,
-    // cards: req.body.cards,
-      API.createSpread(cards.toString())
+    if (cards.length>=3){
+API.createSpread({
+  userId: userProfile.id,
+  userName:userProfile.name,
+  question:"what is water?",
+  spreadType: spreadMode,
+  cards: cards.toString(),
+})
+  .then((response) => {
+    // If the API call is successful, fire another function
+    if (response.status === 200) {
+      // Call your other function here
+      // functionName();
+      console.log("calling the new function")
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
     }
 
   }
@@ -447,7 +462,7 @@ const Cards = function(props) {
   // };
 
   return (
-    
+
     <div className="row table">
       <div className="cardContainer">
         {shuffledCards.map((card, index) => (

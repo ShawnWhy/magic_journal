@@ -304,16 +304,18 @@ app.post("/api/createSpread", function (req, res) {
   console.log("creating spread");
   console.log(req.body);
   db.Spread.create({
-    userId: req.body.userId,
-    spreadType: req.body.spreadType,
-    cards: req.body.cards,
+    SeekerId: req.body.userId,
+    SeekerName:req.body.userName,
+    Question:req.body.question,
+    SpreadType: req.body.spreadType,
+    Cards: req.body.cards,
   })
   
     .then(function (result) {
       res.json(result);
     })
     .catch(function (err) {
-      res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+      res.status(500).send("Oops! Something went wrong. Please try again." + err ); // Dominance level increased!
     }
     );
 });
