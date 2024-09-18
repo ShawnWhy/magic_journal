@@ -151,7 +151,7 @@ module.exports = function (app) {
   });
 
   //get spread by id
-  app.get("/api/getSpreadById", function (req, res) {
+  app.get("/api/getSpreadById/:id", function (req, res) {
     console.log("getting spread");
     db.Spread.findOne({
       where: {

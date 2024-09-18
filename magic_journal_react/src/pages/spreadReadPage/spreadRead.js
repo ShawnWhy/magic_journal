@@ -1,10 +1,9 @@
 //import jquery
 
 import React, { useState, useContext, useEffect } from "react";
-import { BrowserRouter as Router, Route, useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 // import $ from "jquery";
-import "./cards.css";
+import "./spreadReadPage.css";
 import { MyContext } from "../../contexts/myContext";
 import API from "../../utils/API";
 import ace_of_swords from "../../public/images/cards/ace of swords.jpg";
@@ -85,7 +84,7 @@ import The_Star from "../../public/images/cards/The Star.jpg";
 import Judgement from "../../public/images/cards/Judgement.jpg";
 import The_Chariot from "../../public/images/cards/The Chariot.jpg";
 import Strength from "../../public/images/cards/Strength.jpg";
-import { spread } from "axios";
+
 
 const cardLibrary = { 
   "ace of swords": ace_of_swords,
@@ -169,96 +168,38 @@ const cardLibrary = {
 };
 
 
-//set the windows size
-var width = window.innerWidth;
-var height = window.innerHeight;
 
-//on windows resize, set the new width and height
-window.onresize = function () {
-  width = window.innerWidth;
-  height = window.innerHeight;
-};
+const SpreadReadPage = function(props) {
+  //take variable from the parameters and use the id to call the api
+  //take variable from the parameters and use the id to call the api
+  console.log("props",props)
+  let { id } = useParams();
 
+  console.log("params:" , id);
+  //useState to store the data from the api
+  //use the id to call the api for the spread data
+  const [spreadData, setSpreadData] = useState({});
+  //useState to store the data from the api
+  //use the id to call the api for the spread data
+  const callAPI = function () {
+    API.getSpreadbyID(id)
 
-
-const Cards = function(props) {
-
-  let navigate = useNavigate();
+      .then((res) => {
+        console.log(res.data);
+        setSpreadData(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    callAPI();
+  }, []);
+  useEffect(() => {
+    console.log(spreadData);
+  }, [spreadData]);
 
   //using the main context
-  const { userProfile, setUserProfile} = useContext(MyContext);
-  console.log("context")
-  console.log(MyContext);
-  console.log(userProfile)
-  
-  // setUserProfile({
-  //   id: "1111",
-  //   email: "something@something.com",
-  //   firstName: "Guest",
-  //   lastName: "User",
-  //   createdAt: "1/1/11",
-  //   updatedAt: "1/1/11",
-  // });
-  //put the context values into usestate
-
-  let selectedCards = [];
-
-  const clearTable = function () {
-    var cards = document.querySelectorAll(".card");
-    cards.forEach((card, index) => {
-      setTimeout(() => {
-          card.style.transform = `rotate(0deg)`;
-          card.style.opacity = "0";
-          card.style.transition = "opacity .3s , transform .3s";
-      }, index * 10);
-    
-    });
-  };
-
-  const selectCard = function (event, cardname) {
-    console.log(event);
-    //gradually decreate the opacity of the card and remove it after a 2 seconds
-    event.target.style.transition = "opacity 2s";
-    event.target.style.opacity = "0";
-    setTimeout(() => {
-      event.target.style.display = "none";
-    }, 2000);
-    console.log(cardname);
-    selectedCards.push(cardname);
-    console.log(selectedCards);
-    console.log(spreadMode);
-
-    if (spreadMode === "3_card_spread" && selectedCards.length == 3) {
-      console.log(selectedCards);
-      clearTable();
-      submitSpread(selectedCards);
-    } else if (spreadMode === "Celtic_cross" && selectedCards.length == 10) {
-      console.log(selectedCards);
-    } else if (spreadMode === "mind_heart_body" && selectedCards.length == 3) {
-      console.log(selectedCards);
-    }
-  };
-
-  const [spreadMode, setSpreadMode] = useState("3_card_spread");
-
-  const selectSpread = function (event) {
-    if (spreadMode == "3_card_spread") {
-      setSpreadMode("3_card_spread");
-    } else if (spreadMode == "Celtic_cross") {
-      setSpreadMode("Celctic_cross");
-    } else if (spreadMode == "mind_heart_body") {
-      setSpreadMode("mind_heart_body");
-    }
-  };
-
-  const mouseOverCard = function (event) {
-    var card = event.target;
-    card.style.top = "-10px";
-  };
-
-  useEffect(() => {
-    createCards();
-  }, []);
+  const contextValues = useContext(MyContext);
+  const { userProfile, setUserProfile } = contextValues || {};
 
   var majorArcana = [
     "The Fool",
@@ -352,145 +293,12 @@ const Cards = function(props) {
     "queen of cups",
     "king of cups",
   ];
-  function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-  }
 
-  const amplitude = 150; // amplitude of the sine wave
-  const frequency = .0405; // frequency of the sine wave
 
-  const [shuffledCards, setshuffledCards] = useState([]);
-  function rotateCards(cards) {
-    let angleDivide;
-    if(width<768){
-      angleDivide = 360}
-    else{
-      angleDivide = 90
-    }
-    var cards = document.querySelectorAll(".card");
-    var angle = angleDivide / cards.length;
-    cards.forEach((card, index) => {
-      setTimeout(() => {
-        let translateY;
-        let translateX;
-        if(width<768){
-          translateY = 0;
-          translateX=0;
-        }
-        else{
-          translateX = 5;
-        translateY = -1* Math.abs(Math.sin(parseFloat(index) * frequency) * amplitude);
-      }
-        //transform rotation and translation
-        //set the Y translate to be on a curve
-        card.style.transform = `translate(${parseFloat(index) * translateX}%, 
-        ${translateY}px) rotate(${
-          angle * parseFloat(index) - 45
-        }deg)`;
-        card.style.opacity = "1";
-        // card.style.transitionDelay = `${index * 0.5}s`;
-      }, index * 10);
-    });
-  }
-
-  function submitSpread(cards){
-console.log(cards);
-      console.log("submitSpread");
-
-    //if the cards variable is an array and has a length of greater than three
-    if (cards.length>=3){
-API.createSpread({
-  userId: userProfile.id,
-  userName:userProfile.name,
-  question:"what is water?",
-  spreadType: spreadMode,
-  cards: cards.toString(),
-})
-  .then((response) => {
-    // If the API call is successful, fire another function
-    if (response.status === 200) {
-      // Call your other function here
-      // functionName();
-      console.log("calling the new function")
-      //route to spread page using the reacr router with props.parameters
-      navigate(`/spreadPage/${response.data.id}`);      
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-    }
-
-  }
-  function createCards() {
-    var cards = majorArcana
-      .concat(swords)
-      .concat(wands)
-      .concat(pentacle)
-      .concat(cups);
-    shuffleArray(cards);
-    var randomCards = [];
-    cards.forEach((element, index) => {
-      var card = {};
-      card.name = element;
-      //random integer between 0 and 1
-      var random = Math.floor(Math.random() * 2);
-      //if random is 0
-      if (random === 0) {
-        //add the element to the shuffled cards array
-        card.orientation = "up";
-      } else {
-        //add the element to the beginning of the shuffled cards array
-        card.orientation = "down";
-      }
-      // card.rotation = angle * parseFloat(index) - 100;
-      card.rotation = 0;
-      card.image = cardLibrary[element];
-      // setTimeout(() => {
-      randomCards.push(card);
-      setTimeout(() => {
-        rotateCards(randomCards);
-      }, 10);
-    });
-
-    setshuffledCards(randomCards);
-  }
-
-  // const handleInputChange = function (event) {
-  //   const { name, value } = event.target;
-  //   // console.log(name, value);
-  //   setNewItem({ ...newItem, [name]: value });
-  // };
 
   return (
-
     <div className="row table">
-
-      <input className = "queryInput" type="text"></input>
-      <div className="cardContainer">
-        {shuffledCards.map((card, index) => (
-          <div
-            className="col-md-2 card"
-            key={index}
-            name={card.name}
-            style={{
-              transform: `rotate(${card.rotation}deg)`,
-              // transitionDelay: `${index * .0001}s`,
-            }}
-            onClick={(event) => selectCard(event, card.name)}
-          >
-            <div className="card-back">
-              <img src={card_back} alt="card-back"></img>
-            </div>
-          </div>
-        ))}
-      </div>
+     
     </div>
   );
 }
@@ -498,4 +306,4 @@ API.createSpread({
   
 
 
-export default Cards;
+export default SpreadReadPage;

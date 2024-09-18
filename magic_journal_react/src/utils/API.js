@@ -13,10 +13,10 @@ createSpread: function(body){
   console.log(body)
   return axios.post("/api/createSpread", body)
 },
-getSpreadbyID: function(){
+getSpreadbyID: function(id){
     console.log("getting spreads")
-    return axios.get("/api/getSpreadbyID");
-},
+    // console.log(id)
+    return axios.get("/api/getSpreadbyID/"+id);},
 getMonthSpreads: function(day){
   console.log("getting spreads by month")
   return axios.get("/api/getMonthSpreads");
