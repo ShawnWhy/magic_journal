@@ -179,6 +179,12 @@ const SpreadReadPage = function(props) {
   //useState to store the data from the api
   //use the id to call the api for the spread data
   const [spreadData, setSpreadData] = useState({});
+  const [cardsData, setCardsData] = useState([
+    "ace of swords",
+    "2 of swords",
+    "3 of swords"
+    
+  ]);
   //useState to store the data from the api
   //use the id to call the api for the spread data
   const callAPI = function () {
@@ -195,8 +201,21 @@ const SpreadReadPage = function(props) {
   }, []);
   useEffect(() => {
     console.log(spreadData);
-  }, [spreadData]);
+    //parse string into array
+    if(spreadData.Cards){
+    setCardsData(spreadData.Cards.split(","));
+    }
+  }, [spreadData])
 
+  useEffect(() => { 
+    console.log("cardsData",cardsData)
+    createCards();
+  }, [cardsData])
+
+
+  function setupCards(){
+    
+  }
   //using the main context
   const contextValues = useContext(MyContext);
   const { userProfile, setUserProfile } = contextValues || {};
@@ -294,12 +313,44 @@ const SpreadReadPage = function(props) {
     "king of cups",
   ];
 
+  function createCards(){
+
+    console.log("create cards")
+    console.log(cardsData)
+    var table = document.getElementsByClassName("table")[0];
+    table.innerHTML = "";
+
+    var cardList = [];
+    for (var i = 0; i < cardsData.length; i++) {
+      var card = cardsData[i];
+      console.log(card);
+      var cardImage = cardLibrary[card];
+      console.log(cardImage);
+      var cardElement = document.createElement("div");
+      cardElement.classList.add("col-2");
+      var cardImageElement = document.createElement("img");
+      cardImageElement.src = cardImage;
+      cardImageElement.alt = card;
+      cardElement.appendChild(cardImageElement);
+      table.appendChild(cardElement);
+
+   
+    }
+    return cardList;
+  }
 
 
   return (
-    <div className="row table">
-     
+<div className="table"
+  style = {{width:"100%",height: "100vh", overflow: "auto", display: "flex", flexDirection: "column"}}
+  >
+  <div className="row">
+    <div className="col-12">
+      <h1>Spread Read Page</h1>
     </div>
+  </div>
+  </div>
+             
   );
 }
 

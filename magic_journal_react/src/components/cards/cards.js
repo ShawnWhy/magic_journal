@@ -417,8 +417,11 @@ API.createSpread({
       // Call your other function here
       // functionName();
       console.log("calling the new function")
+      setTimeout(() => {
+              navigate(`/spreadPage/${response.data.id}`);      
+
+      }, 1000);
       //route to spread page using the reacr router with props.parameters
-      navigate(`/spreadPage/${response.data.id}`);      
     }
   })
   .catch((error) => {
