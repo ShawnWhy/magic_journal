@@ -232,20 +232,24 @@ const Cards = function(props) {
       console.log(selectedCards);
       clearTable();
       submitSpread(selectedCards);
-    } else if (spreadMode === "Celtic_cross" && selectedCards.length == 10) {
+    } else if (spreadMode === "celtic_cross" && selectedCards.length == 10) {
       console.log(selectedCards);
+       clearTable();
+       submitSpread(selectedCards);
     } else if (spreadMode === "mind_heart_body" && selectedCards.length == 3) {
       console.log(selectedCards);
+       clearTable();
+       submitSpread(selectedCards);
     }
   };
 
-  const [spreadMode, setSpreadMode] = useState("3_card_spread");
+  const [spreadMode, setSpreadMode] = useState("celtic_cross");
 
   const selectSpread = function (event) {
     if (spreadMode == "3_card_spread") {
       setSpreadMode("3_card_spread");
-    } else if (spreadMode == "Celtic_cross") {
-      setSpreadMode("Celctic_cross");
+    } else if (spreadMode == "celtic_cross") {
+      setSpreadMode("celtic_cross");
     } else if (spreadMode == "mind_heart_body") {
       setSpreadMode("mind_heart_body");
     }

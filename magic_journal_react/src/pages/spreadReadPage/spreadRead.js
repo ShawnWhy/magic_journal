@@ -317,17 +317,76 @@ const SpreadReadPage = function(props) {
 
     console.log("create cards")
     console.log(cardsData)
-    var table = document.getElementsByClassName("table")[0];
+    var table = document.getElementsByClassName("cardContainer")[0];
+    if(spreadData.SpreadType&& spreadData.SpreadType==="3_card_spread"){
+      spreadData.SpreadType="three_card_spread";
+    }
+
     table.innerHTML = "";
+    table.classList = "cardContainer" + " " + spreadData.SpreadType;
+
+    
 
     var cardList = [];
+    if(spreadData.SpreadType=="celtic_cross"){
+      var leftHand = document.createElement("div");
+      leftHand.classList.add("leftHand");
+      var topRow = document.createElement("div");
+      topRow.classList.add("cardRow");
+      topRow.classList.add("topRow");
+      leftHand.appendChild(topRow);
+      var middleRow = document.createElement("div");
+      middleRow.classList.add("cardRow");
+      middleRow.classList.add("middleRow");
+      leftHand.appendChild(middleRow);
+      var bottomRow = document.createElement("div");
+      bottomRow.classList.add("cardRow");
+      bottomRow.classList.add("bottomRow");
+      leftHand.appendChild(bottomRow);
+      table.appendChild(leftHand);
+      var rightHand = document.createElement("div");
+      rightHand.classList.add("rightHand");
+      table.appendChild(rightHand);
+
+      for (var i = 0; i < 10; i++) {
+
+           var card = cardsData[i];
+           console.log(card);
+           var cardImage = cardLibrary[card];
+           console.log(cardImage);
+           var cardElement = document.createElement("div");
+           cardElement.classList.add("spreadCard");
+           cardElement.classList.add(spreadData.SpreadType);
+           var cardImageElement = document.createElement("img");
+           cardImageElement.src = cardImage;
+           cardImageElement.alt = card;
+           cardElement.appendChild(cardImageElement);
+           if(i===2){
+            topRow.appendChild(cardElement);
+           }
+           if(i===0||i===1||i===4||i===5){
+            cardElement.classList.add("spreadCard"+(i+1));
+            middleRow.appendChild(cardElement);
+           }
+           if(i===3){
+            bottomRow.appendChild(cardElement);
+            }
+
+            if(i>=6){
+              rightHand.prepend(cardElement);
+            }
+      }
+
+    }
+    else{
     for (var i = 0; i < cardsData.length; i++) {
       var card = cardsData[i];
       console.log(card);
       var cardImage = cardLibrary[card];
       console.log(cardImage);
       var cardElement = document.createElement("div");
-      cardElement.classList.add("col-2");
+      cardElement.classList.add("spreadCard");
+      cardElement.classList.add(spreadData.SpreadType);
       var cardImageElement = document.createElement("img");
       cardImageElement.src = cardImage;
       cardImageElement.alt = card;
@@ -336,19 +395,19 @@ const SpreadReadPage = function(props) {
 
    
     }
-    return cardList;
+    }
   }
 
 
   return (
 <div className="table"
-  style = {{width:"100%",height: "100vh", overflow: "auto", display: "flex", flexDirection: "column"}}
+  style = {{width:"100%",height: "100vh", overflow: "auto", display: "flex"}}
+
   >
-  <div className="row">
-    <div className="col-12">
-      <h1>Spread Read Page</h1>
+    <div className="cardContainer">
+
     </div>
-  </div>
+ 
   </div>
              
   );
