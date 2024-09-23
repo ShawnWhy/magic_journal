@@ -187,9 +187,9 @@ const Cards = function(props) {
 
   //using the main context
   const { userProfile, setUserProfile} = useContext(MyContext);
-  console.log("context")
-  console.log(MyContext);
-  console.log(userProfile)
+  // console.log("context")
+  // console.log(MyContext);
+  // console.log(userProfile)
   
   // setUserProfile({
   //   id: "1111",
@@ -243,7 +243,7 @@ const Cards = function(props) {
     }
   };
 
-  const [spreadMode, setSpreadMode] = useState("celtic_cross");
+  const [spreadMode, setSpreadMode] = useState("3_card_spread");
 
   const selectSpread = function (event) {
     if (spreadMode == "3_card_spread") {
@@ -402,6 +402,10 @@ const Cards = function(props) {
     });
   }
 
+  function changeSpreadType(event){
+    console.log(event.target.value);
+    setSpreadMode(event.target.value);
+  }
   function submitSpread(cards){
 console.log(cards);
       console.log("submitSpread");
@@ -478,6 +482,11 @@ API.createSpread({
   return (
 
     <div className="row table">
+      <select onChange={(event)=>{changeSpreadType(event)}}>
+        <option value="3_card_spread">3 Card Spread</option>
+        <option value="celtic_cross">Celtic Cross</option>
+        <option value="mind_heart_body">Mind, Heart, Body</option>
+      </select>
 
       <input className = "queryInput" type="text"></input>
       <div className="cardContainer">

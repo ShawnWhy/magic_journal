@@ -345,18 +345,23 @@ app.post("/api/createReading", function (req, res) {
   console.log("creating reading");
   console.log(req.body);
   db.Reading.create({
-    userId: req.body.userId,
-    spreadId: req.body.spreadId,
-    readerId: req.body.readerId,
-    readerName: req.body.readerName,
-    cards: req.body.cards,
+    SpreadId: req.body.spreadId,
+    SpreadType: req.body.spreadType,
+    SeekerId: req.body.seekerId,
+    SeekerName: req.body.seekerName,
+    Question: req.body.question,
+    ReaderId: req.body.readerId,
+    ReaderName: req.body.readerName,
+    Symbols: req.body.symbols,
+    ReadingText: req.body.readingText
+    
   })
 
     .then(function (result) {
       res.json(result);
     })
     .catch(function (err) {
-      res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+      res.status(500).send(err); // Dominance level increased!
     }
     );
 });

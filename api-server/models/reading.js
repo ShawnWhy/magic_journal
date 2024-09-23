@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     Symbols: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     Date:{
       type: DataTypes.DATEONLY,

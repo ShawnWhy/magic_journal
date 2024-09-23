@@ -84,6 +84,7 @@ import The_Star from "../../public/images/cards/The Star.jpg";
 import Judgement from "../../public/images/cards/Judgement.jpg";
 import The_Chariot from "../../public/images/cards/The Chariot.jpg";
 import Strength from "../../public/images/cards/Strength.jpg";
+import { spread } from "axios";
 
 
 const cardLibrary = { 
@@ -170,20 +171,22 @@ const cardLibrary = {
 
 
 const SpreadReadPage = function(props) {
+  //using the main context
+
+
   //take variable from the parameters and use the id to call the api
   //take variable from the parameters and use the id to call the api
-  console.log("props",props)
+  console.log("props", props);
   let { id } = useParams();
 
-  console.log("params:" , id);
+  console.log("params:", id);
   //useState to store the data from the api
   //use the id to call the api for the spread data
   const [spreadData, setSpreadData] = useState({});
   const [cardsData, setCardsData] = useState([
     "ace of swords",
     "2 of swords",
-    "3 of swords"
-    
+    "3 of swords",
   ]);
   //useState to store the data from the api
   //use the id to call the api for the spread data
@@ -202,24 +205,29 @@ const SpreadReadPage = function(props) {
   useEffect(() => {
     console.log(spreadData);
     //parse string into array
-    if(spreadData.Cards){
-    setCardsData(spreadData.Cards.split(","));
+    if (spreadData.Cards) {
+      setCardsData(spreadData.Cards.split(","));
     }
-  }, [spreadData])
+  }, [spreadData]);
 
-  useEffect(() => { 
-    console.log("cardsData",cardsData)
+  useEffect(() => {
+    console.log("cardsData", cardsData);
     createCards();
-  }, [cardsData])
+  }, [cardsData]);
 
+ 
+  const { userProfile, setUserProfile } = useContext(MyContext);
+  const [readings, setReadings] = useState([]);
 
-  function setupCards(){
-    
+  function getReadings(){
+    if(spreadData.SeekerName===userProfile.name){
+      API.getReadings(spreadData.id).then((res)=>{
+        setReadings(res.data);
+
+          }).catch((err)=>{console.log(err)}
+          )
   }
-  //using the main context
-  const contextValues = useContext(MyContext);
-  const { userProfile, setUserProfile } = contextValues || {};
-
+}
   var majorArcana = [
     "The Fool",
     "The Empress",
@@ -313,22 +321,67 @@ const SpreadReadPage = function(props) {
     "king of cups",
   ];
 
-  function createCards(){
+  const [cardSymbols, setCardSymbols] = useState([
+    
+  ]); 
 
-    console.log("create cards")
-    console.log(cardsData)
+  function addSymbol(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var symbol = document.getElementById("symbol").value;
+    var symbolText = symbol;
+    console.log(symbolText);
+    setCardSymbols([...cardSymbols, symbolText]);
+  }
+
+
+  function submitReading(e){
+         e.preventDefault();
+        e.stopPropagation();
+        console.log("submitting reading");
+        var reading = document.getElementsByClassName("readingRecord")[0].value;
+        console.log(reading);
+
+    //         SpreadId: req.body.spreadId,
+    // SpreadType: req.body.spreadType,
+    // SeekerId: req.body.seekerId,
+    // SeekerName: req.body.seekerName,
+    // Question: req.body.question,
+    // ReaderId: req.body.readerId,
+    // ReaderName: req.body.readerName,
+    // Symbols: req.body.symbols,
+    // ReadingText: req.body.readingText
+        var body = {
+          spreadId: spreadData.id,
+          spreadType: spreadData.SpreadType,
+          seekerId: spreadData.SeekerId,
+          seekerName: spreadData.SeekerName,
+          question: spreadData.Question,
+          readerId: parseInt(userProfile.id),
+          readerName: userProfile.name,
+          symbols: cardSymbols.toString(),
+          readingText: reading,
+        };
+        console.log(body);
+        API.createReading(body).then((res)=>{
+          console.log(res);
+          getReadings();
+        }).catch((err)=>{console.log(err)});
+      }
+
+  function createCards() {
+    console.log("create cards");
+    console.log(cardsData);
     var table = document.getElementsByClassName("cardContainer")[0];
-    if(spreadData.SpreadType&& spreadData.SpreadType==="3_card_spread"){
-      spreadData.SpreadType="three_card_spread";
+    if (spreadData.SpreadType && spreadData.SpreadType === "3_card_spread") {
+      spreadData.SpreadType = "three_card_spread";
     }
 
     table.innerHTML = "";
     table.classList = "cardContainer" + " " + spreadData.SpreadType;
 
-    
-
     var cardList = [];
-    if(spreadData.SpreadType=="celtic_cross"){
+    if (spreadData.SpreadType == "celtic_cross") {
       var leftHand = document.createElement("div");
       leftHand.classList.add("leftHand");
       var topRow = document.createElement("div");
@@ -349,67 +402,87 @@ const SpreadReadPage = function(props) {
       table.appendChild(rightHand);
 
       for (var i = 0; i < 10; i++) {
+        var card = cardsData[i];
+        console.log(card);
+        var cardImage = cardLibrary[card];
+        console.log(cardImage);
+        var cardElement = document.createElement("div");
+        cardElement.classList.add("spreadCard");
+        cardElement.classList.add(spreadData.SpreadType);
+        var cardImageElement = document.createElement("img");
+        cardImageElement.src = cardImage;
+        cardImageElement.alt = card;
+        cardElement.appendChild(cardImageElement);
+        if (i === 2) {
+          topRow.appendChild(cardElement);
+        }
+        if (i === 0 || i === 1 || i === 4 || i === 5) {
+          cardElement.classList.add("spreadCard" + (i + 1));
+          middleRow.appendChild(cardElement);
+        }
+        if (i === 3) {
+          bottomRow.appendChild(cardElement);
+        }
 
-           var card = cardsData[i];
-           console.log(card);
-           var cardImage = cardLibrary[card];
-           console.log(cardImage);
-           var cardElement = document.createElement("div");
-           cardElement.classList.add("spreadCard");
-           cardElement.classList.add(spreadData.SpreadType);
-           var cardImageElement = document.createElement("img");
-           cardImageElement.src = cardImage;
-           cardImageElement.alt = card;
-           cardElement.appendChild(cardImageElement);
-           if(i===2){
-            topRow.appendChild(cardElement);
-           }
-           if(i===0||i===1||i===4||i===5){
-            cardElement.classList.add("spreadCard"+(i+1));
-            middleRow.appendChild(cardElement);
-           }
-           if(i===3){
-            bottomRow.appendChild(cardElement);
-            }
-
-            if(i>=6){
-              rightHand.prepend(cardElement);
-            }
+        if (i >= 6) {
+          rightHand.prepend(cardElement);
+        }
       }
-
-    }
-    else{
-    for (var i = 0; i < cardsData.length; i++) {
-      var card = cardsData[i];
-      console.log(card);
-      var cardImage = cardLibrary[card];
-      console.log(cardImage);
-      var cardElement = document.createElement("div");
-      cardElement.classList.add("spreadCard");
-      cardElement.classList.add(spreadData.SpreadType);
-      var cardImageElement = document.createElement("img");
-      cardImageElement.src = cardImage;
-      cardImageElement.alt = card;
-      cardElement.appendChild(cardImageElement);
-      table.appendChild(cardElement);
-
-   
-    }
+    } else {
+      for (var i = 0; i < cardsData.length; i++) {
+        var card = cardsData[i];
+        console.log(card);
+        var cardImage = cardLibrary[card];
+        console.log(cardImage);
+        var cardElement = document.createElement("div");
+        cardElement.classList.add("spreadCard");
+        cardElement.classList.add(spreadData.SpreadType);
+        var cardImageElement = document.createElement("img");
+        cardImageElement.src = cardImage;
+        cardImageElement.alt = card;
+        cardElement.appendChild(cardImageElement);
+        table.appendChild(cardElement);
+      }
     }
   }
 
-
   return (
-<div className="table"
-  style = {{width:"100%",height: "100vh", overflow: "auto", display: "flex"}}
+    <div
+      className="table"
+      style={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+        display: "flex",
+      }}
+    >
+      <form
+        onSubmit={(e) => {
+          addSymbol(e);
+        }}
+      >
+        <input
+        type="text"
+        id = "symbol"
+        name = "symbol"
+        ></input>
+        </form>
+      <div className="cardContainer"></div>
+      <form onSubmit={(e)=>{
+        submitReading(e);
 
-  >
-    <div className="cardContainer">
-
+      }}>
+      
+      <input type='text' className="readingRecord" />
+      </form>
+      <div className="symbolContainer">
+      <ul>
+        {cardSymbols.map((symbol, index) => {
+          return <li key={index}>{symbol}</li>;
+        })}
+      </ul>
+      </div>
     </div>
- 
-  </div>
-             
   );
 }
 

@@ -21,8 +21,10 @@ getMonthSpreads: function(day){
   console.log("getting spreads by month")
   return axios.get("/api/getMonthSpreads");
 },
-
-
+createReading: function(body){
+  console.log("creating reading")
+  return axios.post("/api/createReading", body);
+},
   
 
 signUp : function(body){
