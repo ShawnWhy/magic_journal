@@ -8,29 +8,23 @@
     display:flex ! important;
     flex-direction: row;
     justify-content: space-around;
-    position:absolute;
+    position:static;
     left:0 ! important;
 }
 
-.cardContainer.Celtic_cross{
+.cardContainer.celtic_cross{
 
     top:50%;
     width:100%;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
-    position:absolute;
-}
-
-.cardContainer.Celtic_cross{
-
- 
-    flex-direction: column;
-
+    position:static;
 }
 
 .cardContainer.mind_heart_body{
  flex-direction: column;
+    position:static;
   
 }
 
@@ -58,12 +52,12 @@
 
 }
 
-.spreadCard.Celtic_cross{
-    width:10%;   
+.spreadCard.celtic_cross{
+    /* width:10%;    */
 }
 
 .spreadCard.mind_heart_body{
- width:10%;
+ width:20%;
 }
 
 .cardRow{   
@@ -92,4 +86,57 @@
     flex-direction: column;
     width:50%;
     position:relative;
+}
+
+@media screen and (min-width: 769px) {
+
+    .rightHand .spreadCard{
+        /* margin-left:5px; */
+    }
+    
+}
+
+@media (max-width: 768px) {
+
+.spreadCard2{
+        position: absolute;
+    left: 42%;
+    transform: rotate(90deg);
+    top: 45%;
+}
+.spreadCard{
+    width:15%; 
+    border:3px solid black;
+    border-radius: 2px;
+    margin:5px auto;
+
+}
+
+.spreadCard.three_card_spread{
+    width:25%;
+}
+
+.spreadCard.celtic_cross{
+        /* width:10%;    */
+}
+
+.spreadCard.mind_heart_body{
+ width:80%;
+}
+
+.cardContainer.celtic_cross{
+    display:block ! important;
+    flex-direction: column-reverse;
+}
+
+.leftHand{
+    height:unset;
+    width:100%;
+}
+.rightHand{
+    height:unset;
+    width:100%;
+    flex-direction: row;
+}
+
 }

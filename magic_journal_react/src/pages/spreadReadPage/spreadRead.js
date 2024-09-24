@@ -207,6 +207,7 @@ const SpreadReadPage = function(props) {
     //parse string into array
     if (spreadData.Cards) {
       setCardsData(spreadData.Cards.split(","));
+      getReadings();
     }
   }, [spreadData]);
 
@@ -221,7 +222,7 @@ const SpreadReadPage = function(props) {
 
   function getReadings(){
     if(spreadData.SeekerName===userProfile.name){
-      API.getReadings(spreadData.id).then((res)=>{
+      API.getReadingsBySpread(spreadData.id).then((res)=>{
         setReadings(res.data);
 
           }).catch((err)=>{console.log(err)}
@@ -376,6 +377,7 @@ const SpreadReadPage = function(props) {
     if (spreadData.SpreadType && spreadData.SpreadType === "3_card_spread") {
       spreadData.SpreadType = "three_card_spread";
     }
+    table.classList.add(spreadData.SpreadType);
 
     table.innerHTML = "";
     table.classList = "cardContainer" + " " + spreadData.SpreadType;
@@ -453,7 +455,7 @@ const SpreadReadPage = function(props) {
         width: "100%",
         height: "100vh",
         overflow: "auto",
-        display: "flex",
+        
       }}
     >
       <form
@@ -481,6 +483,13 @@ const SpreadReadPage = function(props) {
           return <li key={index}>{symbol}</li>;
         })}
       </ul>
+      </div>
+      <div className="readingsContainer">
+        <ul>
+          {readings.map((reading, index) => {
+            return <li key={index}>{reading.ReadingText}</li>;
+          })}
+        </ul>
       </div>
     </div>
   );

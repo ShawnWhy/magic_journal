@@ -3,67 +3,70 @@ import axios from "axios";
 
 
 export default {
+  getMockData: function () {
+    console.log("getting mock data");
+    return axios.get("/api/mockusers");
+  },
 
-getMockData: function(){
-  console.log("getting mock data")
-  return axios.get("/api/mockusers");
-},
-
-createSpread: function(body){
-  console.log(body)
-  return axios.post("/api/createSpread", body)
-},
-getSpreadbyID: function(id){
-    console.log("getting spreads")
+  createSpread: function (body) {
+    console.log(body);
+    return axios.post("/api/createSpread", body);
+  },
+  getSpreadbyID: function (id) {
+    console.log("getting spreads");
     // console.log(id)
-    return axios.get("/api/getSpreadbyID/"+id);},
-getMonthSpreads: function(day){
-  console.log("getting spreads by month")
-  return axios.get("/api/getMonthSpreads");
-},
-createReading: function(body){
-  console.log("creating reading")
-  return axios.post("/api/createReading", body);
-},
-  
+    return axios.get("/api/getSpreadbyID/" + id);
+  },
+  getMonthSpreads: function (day) {
+    console.log("getting spreads by month");
+    return axios.get("/api/getMonthSpreads");
+  },
+  createReading: function (body) {
+    console.log("creating reading");
+    return axios.post("/api/createReading", body);
+  },
+  getReadingsBySpread: function (id) {
+    console.log("getting readings by spread");
+    console.log(id);
+    return axios.get("/api/getReadingsBySpread/" + id);
+  },
 
-signUp : function(body){
-  console.log("signingup");
-  return axios.post ("/api/signUp",body)
-},
+  signUp: function (body) {
+    console.log("signingup");
+    return axios.post("/api/signUp", body);
+  },
 
-logIn : function(body){
-  console.log("logginin");
-  console.log(body)
-  return axios.post ("/api/login", body)
-},
+  logIn: function (body) {
+    console.log("logginin");
+    console.log(body);
+    return axios.post("/api/login", body);
+  },
 
-logOut : function(){
-  console.log("logout");
-  return axios.post("/logout");
-},
+  logOut: function () {
+    console.log("logout");
+    return axios.post("/logout");
+  },
 
-getUserData : function(){
-  console.log("getting your data");
-  return axios.get("/api/user_data");
-},
+  getUserData: function () {
+    console.log("getting your data");
+    return axios.get("/api/user_data");
+  },
 
-getOtherUser : function(id){
-console.log("getting other user's data")
-return axios.get("/api/otherUserData/"+ id);
-},
+  getOtherUser: function (id) {
+    console.log("getting other user's data");
+    return axios.get("/api/otherUserData/" + id);
+  },
 
-getOtherUserItems : function(id){
-console.log("getting other user's data")
-return axios.get("/api/otherUserItems/"+ id);
-},
+  getOtherUserItems: function (id) {
+    console.log("getting other user's data");
+    return axios.get("/api/otherUserItems/" + id);
+  },
 
-getOtherUserData: function(id){
-  console.log("getting other user's data")
-  return axios.get("/api/otherUserData/"+id)
-},
-
-}
+  getOtherUserData: function (id) {
+    console.log("getting other user's data");
+    return axios.get("/api/otherUserData/" + id);
+  },
+};
 
 
 
