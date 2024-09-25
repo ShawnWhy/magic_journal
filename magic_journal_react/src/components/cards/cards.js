@@ -415,7 +415,7 @@ console.log(cards);
 API.createSpread({
   userId: userProfile.id,
   userName:userProfile.name,
-  question:"what is water?",
+  question: question,
   spreadType: spreadMode,
   cards: cards.toString(),
 })
@@ -439,6 +439,15 @@ API.createSpread({
     }
 
   }
+  //question to ask the true will 
+  const [question, setQuestion] = useState("What is the true will?");
+  const submitQuestion = function(){
+    console.log("submitting question");
+    var question = document.querySelector(".queryInput").value;
+    console.log(question);
+    setQuestion(question);
+  };
+
   function createCards() {
     var cards = majorArcana
       .concat(swords)
@@ -480,15 +489,28 @@ API.createSpread({
   // };
 
   return (
-
     <div className="row table">
-      <select onChange={(event)=>{changeSpreadType(event)}}>
+      <div className = "cardTopBar topBar">
+      <h1>Choose a Spread</h1>
+      <select
+        onChange={(event) => {
+          changeSpreadType(event);
+        }}
+      >
         <option value="3_card_spread">3 Card Spread</option>
         <option value="celtic_cross">Celtic Cross</option>
         <option value="mind_heart_body">Mind, Heart, Body</option>
       </select>
-
-      <input className = "queryInput" type="text"></input>
+      <h2>Ask the Cards</h2>
+      <div className = "question">Question: {question}</div>
+      <form className = "queryForm" onSubmit={(e)=>{
+        e.preventDefault();
+        console.log("submitting query");
+       submitQuestion();
+      }}>
+        <input className="queryInput" type="text"></input>
+      </form>
+      </div>
       <div className="cardContainer">
         {shuffledCards.map((card, index) => (
           <div

@@ -81,3 +81,12 @@
     
     width:80%;
 }
+
+.topBar{
+width:100%;
+display:flex;
+}
+
+.cardTopBar{
+
+}

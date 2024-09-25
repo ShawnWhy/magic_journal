@@ -84,6 +84,7 @@ import The_Star from "../../public/images/cards/The Star.jpg";
 import Judgement from "../../public/images/cards/Judgement.jpg";
 import The_Chariot from "../../public/images/cards/The Chariot.jpg";
 import Strength from "../../public/images/cards/Strength.jpg";
+import The_Hanged_Man from "../../public/images/cards/The Hanged Man.jpg";
 import { spread } from "axios";
 
 
@@ -166,6 +167,7 @@ const cardLibrary = {
   "Judgement": Judgement,
   "The Chariot": The_Chariot,
   "Strength": Strength,
+  "The Hanged Man": The_Hanged_Man,
 };
 
 
