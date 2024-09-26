@@ -1,33 +1,25 @@
 
 
-.cardContainer{
-
-    top:50%;
-    width:100%;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-around;
-    position:absolute;
-}
-
-.card:hover{
-    top:-10px;
-    left:-30px;
-    /* width:20%; */
-}
-
-/*media queries*/
-@media (max-width: 768px) {
-.card:hover{    
-    
-    left:-30px;
-    top:0px;
-
-    width:20%;
-}
-}
-.card img{
-    width:100%;
+.table{
     height:100%;
-    transition: all .3s;
+}
+
+
+.table.dreams{
+
+    background-color: black;
+
+}
+
+.table.journal{
+
+    background-color: rgb(17, 136, 157);
+
+}
+
+#journalCanvas{
+    position:absolute;
+    z-index:0;
+    height:100%;
+    width:100%;
 }

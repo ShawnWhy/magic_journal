@@ -11,7 +11,7 @@ function Homepage(props) {
     { value: "cards", label: "Cards" },
   ];
   //switch journal or cards
-  const [gameMode, setGameMode] = useState("journal");
+  const [gameMode, setGameMode] = useState("cards");
 
   useEffect(() => {
     console.log("home page use effect");
@@ -35,51 +35,9 @@ function Homepage(props) {
   console.log(userProfile);
   //useState my journals
   const [allMyJournals, setAllMyJournals] = useState([]);
-  //useState
-
-  // const createItem = (event)=>{
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   console.log("createitem")
-  //   // console.log(userProfile);
-  //   if(newItem.name.length>0&&newItem.url1.length>0&&
-  //     newItem.url2.length>0&&newItem.url3.length>0&&
-  //     newItem.story.length>20
-  //     ){
-  //   var body= {
-  //     name:newItem.name,
-  //     url1:newItem.url1,
-  //     url2:newItem.url2,
-  //     url3:newItem.url3,
-  //     modelLink:newItem.modelUrl,
-  //     itemStory:newItem.story,
-  //     userId:userProfile.id
-  //   }
-
-  //   console.log(body);
-
-  // API.createItem(body).then((res=>{
-  //   setNewItem({
-  //     name:"",
-  //     url1:"",
-  //     url2:"",
-  //     url3:"",
-  //     modelUrl:"",
-  //     story:""
-  // })
-  //   setWarnMessageItem({...warnMessageItem, message:"success!"});
-  // })).catch((err)=>{
-  //   setWarnMessageItem({...warnMessageItem, message:err.message})
-  // });
-  //     }
-  //     else{
-
-  //         setWarnMessageItem({...warnMessageItem, message:"please fill in the image urls and make sure that the item story is more than 20 characters long"});
-
-  //     }
 
   return (
-    <div>
+    <div class="homePage">
       <h1>Homepage</h1>
       <div className="gameOptions">
         <label htmlFor="gameMode">Choose a game mode:</label>
