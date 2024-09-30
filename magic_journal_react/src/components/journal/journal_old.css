@@ -14,18 +14,9 @@
 .table.journal{
 
     background-color: rgb(17, 136, 157);
-    
 
 }
 
-.journal.topRow{
-    position:absolute;
-    z-index:1;
-}
-.dreams.topRow{
-    position:absolute;
-    z-index:1;
-}
 #journalCanvas{
     position:absolute;
     z-index:0;

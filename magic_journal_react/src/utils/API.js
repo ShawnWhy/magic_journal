@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 export default {
   getMockData: function () {
     console.log("getting mock data");
@@ -66,11 +64,60 @@ export default {
     console.log("getting other user's data");
     return axios.get("/api/otherUserData/" + id);
   },
+  submitJournal: function (body) {
+    console.log("submitting journal");
+    return axios.post("/api/createJournal", body);
+  },
+
+  submitDreams: function (body) {
+    console.log("submitting dream");
+    return axios.post("api/createDream", body);
+  },
+
+  getDreambyDate: function (body) {
+    console.log("getting today's dreams by you");
+    return axios.post("api/getDaysDreams", body);
+  },
+
+  getJournalsByDate: function (body) {
+    console.log("getting today's journals");
+    console.log(body);
+    return axios.post("api/getDaysJournals", body);
+  },
+
+  getJournalsByMonth: function (body) {
+    console.log("getting this month's journals");
+    console.log(body);
+    return axios.post("api/getMonthJournals", body);
+  },
+
+  getDreamsByMonth: function (body) {
+    console.log("getting this month's dreams");
+    console.log(body);
+    return axios.post("api/getMonthDreams", body);
+  },
+
+  getDreamsBySymbol: function (body) {
+    console.log("getting dreams by symbol");
+    console.log(body);
+    return axios.post("api/getDreamsBySymbol", body);
+  },
+
+  getDreamsByUser: function (id) {
+    console.log("getting dreams by user");
+    return axios.get("api/getDreamsByUser/" + id);
+  },
+
+  getJournalsByUser: function (id) {
+    console.log("getting journals by user");
+    return axios.get("api/getJournalsByUser/" + id);
+  },
+
+  getReadingsByUser: function (id) {
+    console.log("getting readings by user");
+    return axios.get("api/getReadingsByUser/" + id);
+  },
 };
-
-
-
-
 
 // getAllEmployees: function() {
 //   return axios.get("/api/employees");

@@ -1,7 +1,7 @@
 // const { Sequelize } = require(".");
 
 module.exports = function(sequelize, DataTypes) {
-  var Journal = sequelize.define("Journal", {
+  var Dream = sequelize.define("Dream", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -19,15 +19,15 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: DataTypes.NOW
     },
 
-    writing: {
+    dream: {
       type: DataTypes.TEXT,
     },
     symbols:{
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
 
     }
   });
-  return Journal
+  return Dream
 }
 
 

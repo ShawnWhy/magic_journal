@@ -3,7 +3,8 @@
 import React, { useState, useContext, useEffect } from "react";
 // import $ from "jquery";
 import { MyContext } from "../../contexts/myContext";
-import "./journal.css"
+import "./journal.css";
+import API from "../../utils/API";
 
 export class Vector {
   x;
@@ -21,20 +22,19 @@ export class Vector {
 }
 
 class Agent {
-  pos
-  vel
-  radius
-  fillStyle
+  pos;
+  vel;
+  radius;
+  fillStyle;
   constructor(x, y, fillStyle) {
     this.pos = new Vector(x, y);
     this.vel = new Vector(
       (Math.random() * 2 - 1) * 0.1,
       (Math.random() * 2 - 1) * 0.5
     );
-    
+
     this.radius = Math.floor(Math.random() * 10 + 5);
     this.fillStyle = fillStyle;
-    
   }
 
   bounce(width, height) {
@@ -86,49 +86,80 @@ class Agent {
     context.restore();
   }
 }
-  
-
-  const Journal = () => {
 
 
-useEffect(()=>{
-createJournalAnimation()
-},[])
+const Journal = () => {
 
+
+  const getJournalorDreams = function(){
+   var formattedDate = new Date().toISOString().slice(0, 10);
+    console.log(formattedDate)
+  if(journalMode==="dreams"){
+
+    API.getDreambyDate(
+      {
+        userId : userProfile.id,
+        date: formattedDate
+
+      }
+    ).then(response=>{
+      console.log(response)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+  }else if (journalMode==="journal"){
+
+    API.getJournalsByDate({
+      userId: userProfile.id,
+      date: formattedDate
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
+
+}
+  useEffect(() => {
+    // createJournalAnimation();
+    getJournalorDreams()
+  }, []);
+
+  const [dreamSymbols, setDreamSymbols] = useState([]);
   var agents = [];
 
-   function onWindowResize(e){
-    console.log(e.target)
-      console.log(e.target.innerWidth);
-      canvasHeight = e.target.innerHeight+300;
-      canvasWidth= e.target.innerWidth
+  function onWindowResize(e) {
+    console.log(e.target);
+    console.log(e.target.innerWidth);
+    canvasHeight = e.target.innerHeight + 300;
+    canvasWidth = e.target.innerWidth;
   }
 
   function sketch(canvasWidth, canvasHeight) {
     for (let i = 0; i < 10; i++) {
       const x = Math.floor(Math.random() * canvasWidth);
       const y = Math.floor(Math.random() * canvasHeight);
-      const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+      const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
       agents.push(new Agent(x, y, color));
     }
   }
 
   let dotsmove = "on";
-  
+
   let canvasHeight;
-  let canvasWidth
-  let elapsed
-  let now
-  function tick(){
+  let canvasWidth;
+  let elapsed;
+  let now;
+  function tick() {
     if (agents.length > 0 && dotsmove == "on") {
       // console.log(waterColor)
       // this.context.fillStyle = this.waterColor;
-      context.fillRect(
-        0,
-        0,
-        canvasWidth,
-        canvasHeight
-      );
+      context.fillRect(0, 0, canvasWidth, canvasHeight);
       for (let i = 0; i < agents.length; i++) {
         agents[i].update();
         agents[i].draw(context);
@@ -151,12 +182,12 @@ createJournalAnimation()
       // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
       then = now - (elapsed % fpsInterval);
     }
-  };
-let canvas;
-let context;
-let fpsInterval;
-let then;
-let startTime;
+  }
+  let canvas;
+  let context;
+  let fpsInterval;
+  let then;
+  let startTime;
   function startAnimating(fps) {
     fpsInterval = 1000 / fps;
     then = Date.now();
@@ -164,72 +195,108 @@ let startTime;
     tick();
   }
 
-  function createJournalAnimation(){
+  function createJournalAnimation() {
     canvas = document.getElementById("journalCanvas");
-    context = canvas.getContext('2d');
-   canvasHeight = canvas.height;
-   canvasWidth = canvas.width;
-    console.log("height ",canvasHeight );
+    context = canvas.getContext("2d");
+    canvasHeight = canvas.height;
+    canvasWidth = canvas.width;
+    console.log("height ", canvasHeight);
     console.log("width", canvasWidth);
 
-
-    sketch(
-      canvasWidth/2,
-      canvasHeight/2
-    );
+    sketch(canvasWidth / 2, canvasHeight / 2);
     startAnimating(60);
   }
 
-
-      const contextValues = useContext(MyContext);
-      const { userProfile, setUserProfile } = contextValues || {};
-
-
-      const [allMyJournals, setAllMyJournals] = useState([]);
-      const [newJournal, setNewJournal] = useState({
-        title: "",
-        entry: "",
-        date: "",
-      });
-      const journalModes = [
-        "dreams",
-        "journal"
-      ]
-      const [journalMode, setJournalMode] = useState("journal");
-
-  return (
-    
-    <div className={"row table " + journalMode}>
-     <canvas id ="journalCanvas"/>
-     <div className = {
-      "col-12 " + journalMode + " topRow" }>
-        <div
-        className="modeSelectJournal"
-        >
-          {journalModes.map((mode) => (
-            <button
-            onClick={() => setJournalMode(mode)}
-            >
-              {mode}
-            </button>
-          ))}
-
-        </div>
-      <form className="journalForm">
-        <input
-        
-        >
-        
-        </input>
-        </form>
-      </div>
-
-     
-    </div>
-  );
-}
-
   
 
+  function submitJournalOrDream(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var journalEntry = document.getElementById("journalInput").value;
+    if (journalMode === "dreams") {
+      API.submitDreams({
+        userId: userProfile.id,
+        dream: journalEntry,
+        symbols: dreamSymbols.toString(),
+      })
+        .then((response) => {
+          // If the API call is successful, fire another function
+          if (response.status === 200) {
+            // Call your other function here
+            // functionName();
+            console.log("calling the new function");
+
+            //route to spread page using the reacr router with props.parameters
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      
+    }
+
+    else{
+
+        API.submitJournal({
+          userId: userProfile.id,
+          dream: journalEntry,
+          symbols: dreamSymbols.toString(),
+        })
+          .then((response) => {
+            // If the API call is successful, fire another function
+            if (response.status === 200) {
+              // Call your other function here
+              // functionName();
+              console.log("calling the new function");
+
+              //route to spread page using the reacr router with props.parameters
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      
+
+    }
+  }
+  const contextValues = useContext(MyContext);
+  const { userProfile, setUserProfile } = contextValues || {};
+
+  const [allMyJournals, setAllMyJournals] = useState([]);
+  const [newJournal, setNewJournal] = useState({
+    title: "",
+    entry: "",
+    date: "",
+  });
+  const journalModes = ["dreams", "journal"];
+  const [journalMode, setJournalMode] = useState("journal");
+
+  return (
+    <div className={"row table " + journalMode}>
+      <canvas id="journalCanvas" />
+      <div className={"col-12 " + journalMode + " topRow"}>
+        <div className="modeSelectJournal">
+          {journalModes.map((mode) => (
+            <button onClick={() => setJournalMode(mode)}>{mode}</button>
+          ))}
+        </div>
+        <div id = "recordLabel">record your {journalMode}</div>
+        <form
+          className="journalForm"
+          onSubmit={(e) => {
+            submitJournalOrDream(e);
+          }}
+        >
+          <textarea id="journalInput"></textarea>
+          <input type="submit"></input>
+        </form>
+      </div>
+      <div className = "listOfEntries">
+        
+      </div>
+    </div>
+  );
+};
 
 export default Journal;

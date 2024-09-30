@@ -5,6 +5,7 @@ var connection = require("./connection");
 const spread = require("../models/spread");
 const { or } = require("sequelize");
 const reading = require("../models/reading");
+var Sequelize = require("sequelize");
 
 const mockUsers = {
   "jim@joesrobotshop.com": {
@@ -63,13 +64,19 @@ module.exports = function (app) {
     res.send(mockUsers);
   });
 
-  app.get("/api/getDaysJournals", function (req, res) {
-    console.log("getting journals");
+  app.post("/api/getDaysJournals", function (req, res) {
+        console.log(req.body);
+
+    console.log("getting days journals");
     db.Journal.findAll({
-      where: {
-        userId: req.params.id,
-        date: req.params.date,
-      },
+      where: Sequelize.and(
+        Sequelize.where(
+          Sequelize.fn("date_format", Sequelize.col("Date"), "%Y-%m-%d"),
+          "=",
+          req.body.date
+        ),
+        { userId: parseInt(req.body.userId) }
+      ),
     }).then(function (result) {
       res.json(result);
     });
@@ -92,14 +99,18 @@ module.exports = function (app) {
   //get the days dreams
   app.get("/api/getDaysDreams", function (req, res) {
     console.log("getting dreams");
-    db.Dream.findAll({
-      where: {
-        userId: req.params.id,
-        date: req.params.date,
-      },
-    }).then(function (result) {
-      res.json(result);
-    });
+ db.Dream.findAll({
+   where: Sequelize.and(
+     Sequelize.where(
+       Sequelize.fn("date_format", Sequelize.col("Date"), "%Y-%m-%d"),
+       "=",
+       req.body.date
+     ),
+     { userId: parseInt(req.body.userId) }
+   ),
+ }).then(function (result) {
+   res.json(result);
+ });
   });
   //get the readings for each spread
   app.get("/api/getSpreadReadings", function (req, res) {
@@ -115,8 +126,8 @@ module.exports = function (app) {
   });
 
   //get all journals for the month
-  app.get("/api/getMonthJournals", function (req, res) {
-    console.log("getting journals");
+  app.post("/api/getMonthJournals", function (req, res) {
+    console.log("getting Months journals");
     if (req.params.month == null) {
       //get the first and last day of the month based on the date passed in
       var firstDay = new Date(
@@ -345,17 +356,24 @@ module.exports = function (app) {
   app.post("/api/createDream", function (req, res) {
     console.log("creating dream");
     console.log(req.body);
+    var symbols;
+    if(req.body.symbols){
+      symbols = req.body.symbols
+    }
+    else{
+      symbols = 'something, something, something'
+    }
     db.Dream.create({
-      userId: req.body.userId,
+      userId: parseInt(req.body.userId),
       dream: req.body.dream,
-      symbols: req.body.symbols,
+      symbols: symbols,
     })
 
       .then(function (result) {
         res.json(result);
       })
       .catch(function (err) {
-        res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+        res.status(500).send("Oops! Something went wrong. Please try again.", err); // Dominance level increased!
       });
   });
 
@@ -475,20 +493,7 @@ module.exports = function (app) {
     });
   });
 
-  //get all journals based on symbol
-  app.get("/api/getSymbolJournals", function (req, res) {
-    console.log("getting journals");
-    db.Journal.findAll({
-      where: {
-        userId: req.params.id,
-        symbols: {
-          [Op.in]: req.params.symbols,
-        },
-      },
-    }).then(function (result) {
-      res.json(result);
-    });
-  });
+ 
   // get all dreams based on symbol
   app.get("/api/getSymbolDreams", function (req, res) {
     console.log("getting dreams");
