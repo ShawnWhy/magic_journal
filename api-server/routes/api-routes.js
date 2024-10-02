@@ -97,7 +97,7 @@ module.exports = function (app) {
   });
 
   //get the days dreams
-  app.get("/api/getDaysDreams", function (req, res) {
+  app.post("/api/getDaysDreams", function (req, res) {
     console.log("getting dreams");
  db.Dream.findAll({
    where: Sequelize.and(

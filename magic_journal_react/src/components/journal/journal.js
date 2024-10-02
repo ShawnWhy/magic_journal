@@ -103,7 +103,9 @@ const Journal = () => {
 
       }
     ).then(response=>{
-      console.log(response)
+      console.log("dreams gotten")
+      console.log(response.data)
+      setAllMyJournals(response.data)
     })
     .catch(err=>{
       console.log(err)
@@ -116,7 +118,9 @@ const Journal = () => {
       date: formattedDate
     })
       .then((response) => {
-        console.log(response);
+        console.log("journals gotten" + response);
+        console.log(response.data)
+        setAllMyJournals(response.data)
       })
       .catch((err) => {
         console.log(err);
@@ -239,7 +243,7 @@ const Journal = () => {
 
         API.submitJournal({
           userId: userProfile.id,
-          dream: journalEntry,
+          writing: journalEntry,
           symbols: dreamSymbols.toString(),
         })
           .then((response) => {
@@ -270,7 +274,14 @@ const Journal = () => {
     date: "",
   });
   const journalModes = ["dreams", "journal"];
+
+  
   const [journalMode, setJournalMode] = useState("journal");
+
+    useEffect(() => {
+      // createJournalAnimation();
+      getJournalorDreams();
+    }, [journalMode]);
 
   return (
     <div className={"row table " + journalMode}>
@@ -293,6 +304,14 @@ const Journal = () => {
         </form>
       </div>
       <div className = "listOfEntries">
+        {/* if journalmode is journal display all journals*/}
+        
+
+        {allMyJournals.map((journal)=>(
+          journalMode==="dreams"?
+          <div style={{color:'white'}}>{journal.dream}</div>:
+          <div>{journal.writing}</div>
+        ))}
         
       </div>
     </div>
