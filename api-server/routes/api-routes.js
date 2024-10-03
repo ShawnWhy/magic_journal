@@ -448,6 +448,27 @@ module.exports = function (app) {
       });
   });
 
+  app.post("/api/editJournal", function (req, res) {  
+    console.log("editing journal");
+    console.log(req.body);
+    db.Journal.update(
+      {
+        writing: req.body.writing,
+        symbols: req.body.symbols,
+      },
+      {
+        where: {
+          id: req.body.id,
+        },
+      }
+    )
+      .then(function (result) {
+        res.json(result);
+      })
+      .catch(function (err) {
+        res.status(500).send(err);
+      });
+  } );
   //delete a journal entry
   app.delete("/api/deleteJournal/:id", function (req, res) {
     console.log("deleting journal");
@@ -470,6 +491,27 @@ module.exports = function (app) {
       res.json(result);
     });
   });
+  app.post("/api/editDream", function (req, res) {
+    console.log("editing dream");
+    console.log(req.body);
+    db.Dream.update(
+      {
+        dream: req.body.dream,
+        symbols: req.body.symbols,
+      },
+      {
+        where: {
+          id: req.body.id,
+        },
+      }
+    )
+      .then(function (result) {
+        res.json(result);
+      })
+      .catch(function (err) {
+        res.status(500).send(err);
+  })
+  });
   //delete a dream entry
   app.delete("/api/deleteDream/:id", function (req, res) {
     console.log("deleting dream");
@@ -481,6 +523,40 @@ module.exports = function (app) {
       res.json(result);
     });
   });
+
+  app.post("/api/editReading", function (req, res) {
+    console.log("editing reading");
+    console.log(req.body);
+    db.Reading.update(
+      {
+        ReadingText: req.body.readingText,
+      },
+      {
+        where: {
+          id: req.body.id,
+        },
+      }
+    )
+      .then(function (result) {
+        res.json(result);
+      })
+      .catch(function (err) {
+        res.status(500).send(err);
+      });
+  }
+  );
+
+  app.get("/api/getReadingsByReader/:id", function (req, res) {
+    console.log("getting readings");
+    db.Reading.findAll({
+      where: {
+        ReaderId: req.params.id,
+      },
+    }).then(function (result) {
+      res.json(result);
+    });
+  }
+  );
   //delete a reading entry
   app.delete("/api/deleteReading/:id", function (req, res) {
     console.log("deleting reading");
@@ -515,13 +591,20 @@ module.exports = function (app) {
       where: {
         SeekerId: req.params.userid,
         //symbols in the list of symbols
-        symbols: {
-          [Op.in]: req.params.symbols,
-        },
       },
     }).then(function (result) {
-      res.json(result);
-    });
+      let symbolResult = []
+      result.forEach(reading => {
+        let symbols = reading.Symbols.split(", ");
+        if (symbols.includes(req.params.symbol)) {
+          symbolResult.push(reading)
+        }
+      })
+      res.json(symbolResult);
+    }).catch(function (err) {
+      res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+    }
+    );
   });
 };
 
