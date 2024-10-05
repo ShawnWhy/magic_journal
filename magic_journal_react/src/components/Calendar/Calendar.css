@@ -1,0 +1,50 @@
+.Calendar {}
+
+.calendar {
+
+    width:80%;
+    height:100%;
+    margin:auto;
+    
+
+    
+
+
+}
+.calenderDays{
+    width:100%;
+       grid-template-columns: repeat(7, 1fr);
+       height:50px;
+       display:table;
+
+}
+.calendarDay{
+    display:grid;
+
+    border: 1px solid black;
+        display:grid;
+    border: 1px solid black;
+    height:100%;
+    width:14.152%;
+    float:left;
+        height:50px;
+
+}
+
+.calendarDates{
+       grid-template-columns: repeat(7, 1fr);
+    width:100%;
+    display:table;
+    border:1px solid black;
+}
+
+.calendarDate{
+    display:grid;
+    border: 1px solid black;
+    height:100%;
+    width:14.152%;
+    float:left;
+        height:150px;
+
+    
+}

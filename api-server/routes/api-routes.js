@@ -6,6 +6,8 @@ const spread = require("../models/spread");
 const { or } = require("sequelize");
 const reading = require("../models/reading");
 var Sequelize = require("sequelize");
+const Op = Sequelize.Op;
+
 
 const mockUsers = {
   "jim@joesrobotshop.com": {
@@ -128,6 +130,7 @@ module.exports = function (app) {
   //get all journals for the month
   app.post("/api/getMonthJournals", function (req, res) {
     console.log("getting Months journals");
+    console.log(req.body);
     if (req.params.month == null) {
       //get the first and last day of the month based on the date passed in
       var firstDay = new Date(
@@ -141,12 +144,13 @@ module.exports = function (app) {
         0
       );
     } else {
-      var firstDay = new Date(new Date().getFullYear(), req.params.month, 1);
-      var lastDay = new Date(new Date().getFullYear(), req.params.month + 1, 0);
+      var firstDay = new Date(req.body.year, req.body.month, 1);
+      //get the last day of the month
+      var lastDay = new Date(req.body.year, req.body.month + 1, 0);
     }
     db.Journal.findAll({
       where: {
-        userId: req.params.id,
+        userId: req.body.id,
         //date is larger or equal to the first day of the month
         //date is lesser or equal to the last day of the month
         date: {
@@ -606,6 +610,8 @@ module.exports = function (app) {
     }
     );
   });
+
+  
 };
 
 
