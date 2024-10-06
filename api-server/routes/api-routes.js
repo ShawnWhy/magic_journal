@@ -131,7 +131,8 @@ module.exports = function (app) {
   app.post("/api/getMonthJournals", function (req, res) {
     console.log("getting Months journals");
     console.log(req.body);
-    if (req.params.month == null) {
+    if (req.body.month == null) {
+      console.log("month is null")
       //get the first and last day of the month based on the date passed in
       var firstDay = new Date(
         new Date().getFullYear(),
@@ -144,10 +145,14 @@ module.exports = function (app) {
         0
       );
     } else {
+
+      console.log("month is not null")
       var firstDay = new Date(req.body.year, req.body.month, 1);
       //get the last day of the month
       var lastDay = new Date(req.body.year, req.body.month + 1, 0);
     }
+    console.log("firstday "+ firstDay);
+    console.log("lastday "+ lastDay); 
     db.Journal.findAll({
       where: {
         userId: req.body.id,
