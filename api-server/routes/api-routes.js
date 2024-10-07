@@ -184,9 +184,9 @@ module.exports = function (app) {
   });
 
   //get all spreads for the month
-  app.get("/api/getMonthSpreads", function (req, res) {
+  app.post("/api/getMonthSpreads", function (req, res) {
     console.log("getting spreads");
-    if (req.params.month == null) {
+    if (req.body.month == null) {
       //get the first and last day of the month based on the date passed in
       var firstDay = new Date(
         new Date().getFullYear(),
@@ -199,12 +199,12 @@ module.exports = function (app) {
         0
       );
     } else {
-      var firstDay = new Date(new Date().getFullYear(), req.params.month, 1);
-      var lastDay = new Date(new Date().getFullYear(), req.params.month + 1, 0);
+      var firstDay = new Date(new Date().getFullYear(), req.body.month, 1);
+      var lastDay = new Date(new Date().getFullYear(), req.body.month + 1, 0);
     }
     db.Spread.findAll({
       where: {
-        userId: req.params.id,
+        userId: req.body.id,
         //date is larger or equal to the first day of the month
         //date is lesser or equal to the last day of the month
         date: {
@@ -222,9 +222,10 @@ module.exports = function (app) {
 
   //get all dreams for the month
 
-  app.get("/api/getMonthDreams", function (req, res) {
-    console.log("getting dreams");
-    if (req.params.month == null) {
+  app.post("/api/getMonthDreams", function (req, res) {
+    console.log("getting months dreams");
+    console.log(req.body);
+    if (req.body.month == null) {
       //get the first and last day of the month based on the date passed in
       var firstDay = new Date(
         new Date().getFullYear(),
@@ -237,12 +238,12 @@ module.exports = function (app) {
         0
       );
     } else {
-      var firstDay = new Date(new Date().getFullYear(), req.params.month, 1);
-      var lastDay = new Date(new Date().getFullYear(), req.params.month + 1, 0);
+      var firstDay = new Date(new Date().getFullYear(), req.body.month, 1);
+      var lastDay = new Date(new Date().getFullYear(), req.body.month + 1, 0);
     }
     db.Dream.findAll({
       where: {
-        userId: req.params.id,
+        userId: req.body.id,
         //date is larger or equal to the first day of the month
         //date is lesser or equal to the last day of the month
         date: {
