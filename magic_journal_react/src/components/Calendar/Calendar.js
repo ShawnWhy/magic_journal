@@ -145,11 +145,15 @@ const Calendar = () => {
     console.log("journals data");
     console.log(data);
     data.forEach((journal) => {
+      if (journal.date === undefined) {
+        journal.date = journal.createdAt.slice(0, 10);
+      }
       let date = journal.date;
       for (let i = 0; i < calendarDaysTemp.length; i++) {
         // console.log(calendarDays[i].dateFormated);
         if (calendarDaysTemp[i].dateFormated === date) {
           console.log("found a match");
+          console.log(i);
           console.log(calendarDaysTemp[i]);
           calendarDaysTemp[i].list.push(journal);
           console.log("calendar days temp");
