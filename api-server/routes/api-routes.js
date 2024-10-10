@@ -204,7 +204,7 @@ module.exports = function (app) {
     }
     db.Spread.findAll({
       where: {
-        userId: req.body.id,
+        SeekerId: req.body.id,
         //date is larger or equal to the first day of the month
         //date is lesser or equal to the last day of the month
         date: {

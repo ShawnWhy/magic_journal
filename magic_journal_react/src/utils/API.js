@@ -15,9 +15,9 @@ export default {
     // console.log(id)
     return axios.get("/api/getSpreadbyID/" + id);
   },
-  getMonthSpreads: function (day) {
+  getMonthSpreads: function (body) {
     console.log("getting spreads by month");
-    return axios.get("/api/getMonthSpreads");
+    return axios.post("/api/getMonthSpreads",body);
   },
   createReading: function (body) {
     console.log("creating reading");
