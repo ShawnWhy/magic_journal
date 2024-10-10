@@ -58,12 +58,15 @@ const Calendar = () => {
   }, [calendarMode]);
 
   function nextMonthFunction() {
-    if (nextMonth > 11) {
+    if (month==11) {
+      console.log("next month if ", nextMonth );
+      console.log("next month if ", month );
       month = 0;
       prevYear++;
+      nextYear++;
       year++;
       prevMonth = 11;
-      nextMonth = month+1;
+      nextMonth = 1;
       // nextMonth = 1;
       firstDay = new Date(year, month, 1);
       lastDay = new Date(year, month + 1, 0);
@@ -76,9 +79,11 @@ const Calendar = () => {
     } else {
       console.log("next month else");
       console.log(month);
+      console.log(nextMonth);
 
-      month = month + 1;
+      month++;
       nextMonth++;
+      prevMonth++;
       firstDay = new Date(year, month, 1);
       lastDay = new Date(year, month + 1, 0);
       firstDayIndex = firstDay.getDay();
@@ -92,11 +97,14 @@ const Calendar = () => {
 
   function prevMonthFunction() {
     console.log("prev month");
-    if (prevMonth < 0) {
+    if (month == 0) {
+      console.log("prev month if ", prevMonth );
+      console.log("prev month if ", month );
       month = 11;
       prevYear--;
       year--;
       prevMonth = 10;
+      nextMonth = 0;
       firstDay = new Date(year, month, 1);
       lastDay = new Date(year, month + 1, 0);
       firstDayIndex = firstDay.getDay();
@@ -107,9 +115,10 @@ const Calendar = () => {
       setFirstDayIndexDisplay(firstDayIndex);
     } else {
       console.log("prev month else");
+      console.log("prev month else ", prevMonth );
       console.log(month);
 
-      month = month - 1;
+      month --;
       prevMonth--;
       nextMonth--;
       firstDay = new Date(year, month, 1);
