@@ -7,6 +7,7 @@ import { MyContext } from './contexts/myContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Calendar from './components/Calendar/Calendar';
 import Menu from './components/Menu/Menu';
+import DaysJournal from './pages/daysJournal/daysJournal';
 function App() {
 
   const [userProfile, setUserProfile] = useState(
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<Homepage />}></Route>
           {/* spread page with inline parameters */}
           <Route path="/spreadPage/:id" element={<SpreadReadPage />}></Route>
+          <Route path="/daysJournal/:date" element={<DaysJournal />}></Route>
           <Route path="/Calendar" element={<Calendar />}></Route>
         </Routes>
       </Router>
