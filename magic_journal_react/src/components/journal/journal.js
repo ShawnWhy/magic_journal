@@ -134,6 +134,15 @@ const Journal = () => {
     getJournalorDreams()
   }, []);
 
+  function setDreamSymbolsFunction(e){
+    e.stopPropagation()
+    e.preventDefault()
+    var journalSymbol = document.getElementById("journalSymbolInput").value;
+
+    setDreamSymbols([...dreamSymbols, journalSymbol])
+    console.log(dreamSymbols);
+
+  }
   const [dreamSymbols, setDreamSymbols] = useState([]);
   var agents = [];
 
@@ -292,7 +301,7 @@ const Journal = () => {
             <button onClick={() => setJournalMode(mode)}>{mode}</button>
           ))}
         </div>
-        <div id = "recordLabel">record your {journalMode}</div>
+        <div id="recordLabel">record your {journalMode}</div>
         <form
           className="journalForm"
           onSubmit={(e) => {
@@ -300,19 +309,39 @@ const Journal = () => {
           }}
         >
           <textarea id="journalInput"></textarea>
+          <label name="symbolsLable" id="symbolLable">
+            symbols
+          </label>
+
           <input type="submit"></input>
         </form>
+        <form
+          id="symbolsForm"
+          onSubmit={(e) => {
+            setDreamSymbolsFunction(e);
+          }}
+        >
+     
+          <input id="journalSymbolInput" name="symbols" type="text"></input>
+          <div className="selectedSymbolsDiv">
+            {dreamSymbols.length > 0
+              ? dreamSymbols.map((symbol) => {
+                  return <div>{symbol}</div>;
+                })
+              : null}
+          </div>
+        </form>
       </div>
-      <div className = "listOfEntries">
+      <div className="listOfEntries">
         {/* if journalmode is journal display all journals*/}
-        
 
-        {allMyJournals.map((journal)=>(
-          journalMode==="dreams"?
-          <div style={{color:'white'}}>{journal.dream}</div>:
-          <div>{journal.writing}</div>
-        ))}
-        
+        {allMyJournals.map((journal) =>
+          journalMode === "dreams" ? (
+            <div style={{ color: "white" }}>{journal.dream}</div>
+          ) : (
+            <div>{journal.writing}</div>
+          )
+        )}
       </div>
     </div>
   );
