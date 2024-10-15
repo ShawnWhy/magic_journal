@@ -5,7 +5,7 @@ import API from "../../utils/API";
 import { MyContext } from "../../contexts/myContext";
 import { useParams } from "react-router-dom";
 import styles from "./symbolsJournal.module.css";
-import { use } from "express/lib/router";
+// import { use } from "express/lib/router";
 //get two parameters from the url
 const SymbolsJournal = (props) => {
   let { symbol, mode } = useParams();
@@ -19,37 +19,108 @@ const SymbolsJournal = (props) => {
   const getListsBasedOnMode = (list) => {
     switch (mode) {
       case "journal":
-        return list.filter((journal) => journal.writing);
+        getAllOfMyJournals();
+        return 
       case "dreams":
-        return list.filter((journal) => journal.symbols);
+        getAllOfMyDreams();
+        return
       case "spreads":
+        getAllOfMySpreads();
+        return 
+      case "readings":
+        getAllOfMyReadings();
+        return
       default:
+        getAllOfMyJournals();
         return list;
     }
   };
-    const getAllofMyJournals = () => {
-      API.getJournalsByUser({
-        
-        userId: userProfile.id,
-      }).then((res) => {
+
+  const getAllOfMySpreads = ()=>{
+    console.log("getting spreads")
+    console.log(userProfile.id)
+    API.getSpreadsByUser(userProfile.id).then((res)=>{
+      console.log("spreads",res.data)
+      
+      getSpreadsThatContainSymbol(res.data)
+      
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  const getAllOfMyDreams =()=>{
+    API.getDreamsByUser(userProfile.id)
+      .then((res) => {
         console.log(res.data);
         getJournalsThatContainSymbol(res.data);
-        
+      })
+      .catch((err) => {
+        console.log(err);
       });
+  }
+    const getAllOfMyJournals = () => {
+      console.log("getting journal list", symbol);
+      API.getJournalsByUser(userProfile.id)
+        .then((res) => {
+          console.log(res.data);
+          getJournalsThatContainSymbol(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }; 
+
+    const getAllOfMyReadings = ()=>{
+      API.getReadingsByUser(userProfile.id)
+        .then((res) => {
+          console.log(res.data);
+          getReadingsThatContainSymbol(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     
     const getJournalsThatContainSymbol = (list) => {
       let newList = [];
       list.forEach((journal) => {
-        if(journal.symbols.includes(symbol)){
+        if(journal.symbols.split(',').includes(symbol)){
           newList.push(journal);
         }
       });
+      console.log(newList);
+      setJournalList(newList);
+    }
+
+    const getSpreadsThatContainSymbol = (list)=>{
+      let newList = [];
+      list.forEach((spread)=>{
+      if(spread.Cards.split(',').includes(symbol)){
+        newList.push(spread)
+        console.log(symbol)
+        
+      }
+      })
+      setJournalList(newList);
+            console.log(newList);
+
+    }
+
+    const getReadingsThatContainSymbol =(list)=>{
+      let newList = [];
+      list.forEach((reading)=>{
+        if(reading.Symbols.split(",").includes(symbol)){
+          newList.push(reading)
+        }
+      })
+      console.log("newList fir readngs")
+      console.log(newList)
       setJournalList(newList);
     }
 
     useEffect(() => {
-      getAllofMyJournals();
+      getListsBasedOnMode();
     }
     , []);
 
@@ -59,6 +130,16 @@ const SymbolsJournal = (props) => {
 
   return (
    <div>
+    {journallist.map((journal) => {
+      
+        return <div>
+          <p>{journal.id}</p>
+          
+        </div>
+      
+      
+    })
+  }
     
    </div>
   );

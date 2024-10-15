@@ -220,6 +220,67 @@ module.exports = function (app) {
     });
   });
 
+  app.get("/api/getJournalsByUser/:id", function (req, res) {
+    console.log("getting journals");
+    db.Journal.findAll({
+      where: {
+        userId: req.params.id,
+      },
+    }).then(function (result) {
+      res.json(result);
+    }).catch(function(err){
+      res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+    });
+  }
+);
+
+app.get("/api/getDreamsByUser/:id", function (req, res) {
+  console.log("getting dreams");
+  db.Dream.findAll({
+    where: {
+      userId: req.params.id,
+    },
+  }).then(function (result) {
+    res.json(result);
+  }).catch(function(err){
+    res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+  });
+});
+
+app.get("/api/getReadingsByUser/:id", function (req, res) {
+  console.log("getting readings");
+  db.Reading.findAll({
+    where: {
+      SeekerId: req.params.id,
+    },
+  }).then(function (result) {
+    res.json(result);
+  }).catch(function (err) {
+    res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+  }
+  );
+  
+});
+
+
+
+  app.get('/api/getSpreadsByUser/:id', function(req, res){
+    console.log("getting the user's spreads")
+    console.log(req.params.id)
+    db.Spread.findAll({
+      where: {
+        SeekerId : req.params.id
+      }
+
+    }).then(function(result){
+      res.json(result)
+    }
+
+  ).catch(function(err){
+    res.status(500).send("Oops! Something went wrong. Please try again."); // Dominance level increased!
+  });
+  });
+
   //get all dreams for the month
 
   app.post("/api/getMonthDreams", function (req, res) {

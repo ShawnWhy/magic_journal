@@ -117,6 +117,12 @@ export default {
     console.log("getting readings by user");
     return axios.get("/api/getReadingsByUser/" + id);
   },
+
+  getSpreadsByUser:function(id){
+    console.log("getting user spreads")
+    console.log(id)
+    return axios.get("/api/getSpreadsByUser/"+id)
+  }
 };
 
 // getAllEmployees: function() {
