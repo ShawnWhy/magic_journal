@@ -324,19 +324,41 @@ const Calendar = () => {
         </div>
         <div className="calendarDates">
           {calendarDays.map((day, index) => (
-            <div key={day.date} className="calendarDate">
-              <div>{day.date}</div>
-              {fistDayIndexDisplay}
-              {index > fistDayIndexDisplay - 1 && day !== " " ? (
+            <div
+              key={day.date}
+              className={`calendarDate ${
+                day.list && day.list.length > 0 ? " calendarSelected" : ""
+              }`}
+            >
+              {day.list && day.list.length > 0 ? (
+                calendarMode === "journal" ? (
+                  <a href={`/daysJournal/${day.list[0].date}`}>
+                    {day.list[0].date}
+                  </a>
+                ) : calendarMode === "dream" ? (
+                  <a href={`/daysDreams/${day.list[0].date}`}>
+                    {day.list[0].date}
+                  </a>
+                ) : (
+                  <div>
+                   <div>{day.dateFormated}</div>
+                  
+                  {day.list.map((spread) => {
+                    return (
+                      <a className="spreadListItem" href={`/spreadPage/${spread.id}`}>
+                        {spread.id}
+                      </a>
+                    );
+                  })
+                }
+                </div>
+
+                )
+              ) : index > fistDayIndexDisplay - 1 && day !== " " ? (
                 <div>{day.dateFormated}</div>
               ) : (
                 ""
               )}
-              {index > firstDayIndex - 1 && day !== " " && day.list.length > 0
-                ? day.list.map((journal) => (
-                    <div key={journal.id}>{journal.id}</div>
-                  ))
-                : ""}
             </div>
           ))}
         </div>

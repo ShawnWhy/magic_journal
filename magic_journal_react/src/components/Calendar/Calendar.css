@@ -18,6 +18,13 @@
        display:table;
 
 }
+.calendarSelected{
+    background-color: #3ddce1;
+}
+.calendarSelected:hover{
+    background-color: #543bf5;
+    
+}
 .calendarDay{
     display:grid;
 
@@ -46,5 +53,10 @@
     float:left;
         height:150px;
 
-    
+}
+
+.spreadListItem{
+    width:100%;
+    margin-bottom:5px;
+    display:table;
 }

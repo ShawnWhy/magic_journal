@@ -74,7 +74,7 @@ export default {
     return axios.post("/api/createDream", body);
   },
 
-  getDreambyDate: function (body) {
+  getDreamsbyDate: function (body) {
     console.log("getting today's dreams by you");
     return axios.post("/api/getDaysDreams", body);
   },

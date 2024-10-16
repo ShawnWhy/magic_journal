@@ -9,6 +9,7 @@ import Calendar from './components/Calendar/Calendar';
 import Menu from './components/Menu/Menu';
 import DaysJournal from './pages/daysJournal/daysJournal';
 import SymbolsJournal from './pages/symbolsJournal/symbolsJournal';
+import DaysDreams from './pages/daysDreams/daysDreams';
 function App() {
 
   const [userProfile, setUserProfile] = useState(
@@ -27,9 +28,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />}></Route>
           {/* spread page with inline parameters */}
-          <Route path="/symbolsJournal/:symbol/:mode" element={<SymbolsJournal />}></Route>
+          <Route
+            path="/symbolsJournal/:symbol/:mode"
+            element={<SymbolsJournal />}
+          ></Route>
           <Route path="/spreadPage/:id" element={<SpreadReadPage />}></Route>
           <Route path="/daysJournal/:date" element={<DaysJournal />}></Route>
+          <Route path="/daysDreams/:date" element={<DaysDreams />}></Route>
+
           <Route path="/Calendar" element={<Calendar />}></Route>
         </Routes>
       </Router>
