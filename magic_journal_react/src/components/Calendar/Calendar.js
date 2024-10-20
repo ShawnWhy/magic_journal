@@ -308,17 +308,18 @@ const Calendar = () => {
           <button onClick={() => setCalendarModeFunction("spread")}>
             Spread
           </button>
-
-          <button onClick={prevMonthFunction}>Prev</button>
-          <h1>
-            {yearDisplay} {months[monthDisplay]}
-          </h1>
-          <button onClick={nextMonthFunction}>Next</button>
+          <div className="yearTravel">
+            <button onClick={prevMonthFunction}>Prev</button>
+            <h1>
+              {yearDisplay} {months[monthDisplay]}
+            </h1>
+            <button onClick={nextMonthFunction}>Next</button>
+          </div>
         </div>
         <div className="calendarDays">
           {days.map((day) => (
             <div key={day} className="calendarDay">
-              {day}
+              <div>{day}</div>
             </div>
           ))}
         </div>
@@ -341,18 +342,19 @@ const Calendar = () => {
                   </a>
                 ) : (
                   <div>
-                   <div>{day.dateFormated}</div>
-                  
-                  {day.list.map((spread) => {
-                    return (
-                      <a className="spreadListItem" href={`/spreadPage/${spread.id}`}>
-                        {spread.id}
-                      </a>
-                    );
-                  })
-                }
-                </div>
+                    <div>{day.dateFormated}</div>
 
+                    {day.list.map((spread) => {
+                      return (
+                        <a
+                          className="spreadListItem"
+                          href={`/spreadPage/${spread.id}`}
+                        >
+                          {spread.id}
+                        </a>
+                      );
+                    })}
+                  </div>
                 )
               ) : index > fistDayIndexDisplay - 1 && day !== " " ? (
                 <div>{day.dateFormated}</div>

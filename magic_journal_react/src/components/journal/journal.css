@@ -21,11 +21,22 @@
 .journal.topRow{
     position:absolute;
     z-index:1;
+    width:100%;
+    display:flex;
+
 }
 .dreams.topRow{
     position:absolute;
     z-index:1;
+        width:100%;
+    display:flex;
 }
+
+.dreams.topRow *{
+    margin:auto;
+    
+}
+
 #journalCanvas{
     position:absolute;
     z-index:0;

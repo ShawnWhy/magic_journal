@@ -43,6 +43,7 @@ return (
               <div>Magic journal</div>
      
             </div>
+            <div className="menuRow">
             <div className="home">
               <Link to="/">Home Page</Link>
             </div>
@@ -102,6 +103,7 @@ return (
 
             <div className="margin title_link4 title_link">
               <Link to="/contact">Contact</Link>
+            </div>
             </div>
           </div>
 

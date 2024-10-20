@@ -96,7 +96,7 @@ const Journal = () => {
     console.log(formattedDate)
   if(journalMode==="dreams"){
 
-    API.getDreambyDate(
+    API.getDreamsbyDate(
       {
         userId : userProfile.id,
         date: formattedDate
