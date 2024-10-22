@@ -5,7 +5,9 @@
     100%{left:0px}
     
 }
-
+.cardTopBar *{
+    margin:auto;
+}
 .inputRow{
     width:100%;
     top:30%;
@@ -23,6 +25,7 @@
 
 .card{
     position:absolute;
+    background-color: unset ! important;
     width:15%;
     /* left:0px ! important; */
     opacity: 0;
@@ -55,7 +58,7 @@
 }
 .cardContainer{
     left:20%;
-    top:50%;
+    /* top:50%; */
 }   
 }
 @media (max-width: 768px) {
@@ -89,4 +92,12 @@ display:flex;
 
 .cardTopBar{
 
+}
+.card-back{
+    background-color: unset! important;
+}
+
+.card img{
+    border-radius:7%;
+    background-color: unset ! important;
 }

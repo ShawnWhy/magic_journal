@@ -6,6 +6,7 @@ import API from "../../utils/API";
 import { MyContext } from "../../contexts/myContext";
 import { useParams } from "react-router-dom";
 
+
 const DaysDreams = function (props) {
   let { date } = useParams();
   console.log("params:", date);
@@ -43,8 +44,8 @@ const DaysDreams = function (props) {
         return (
           <div>
             <p className="journalWriting">{journal.writing}</p>
-            {journal.symbols.length>0
-              ? journal.symbols.split(',').map((symbol) => {
+            {journal.symbols.length > 0
+              ? journal.symbols.split(",").map((symbol) => {
                   return <p className="journalSymbol">{symbol}</p>;
                 })
               : journal.symbols}

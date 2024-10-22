@@ -457,31 +457,34 @@ const SpreadReadPage = function(props) {
         width: "100%",
         height: "100vh",
         overflow: "auto",
+        
       }}
     >
-      <div className="cardContainer"></div>
-      <form
-        onSubmit={(e) => {
-          submitReading(e);
-        }}
-      >
-        <textarea className="readingRecord" />
-        <input className = "submitReading" type="submit"/>
-      </form>
-
       <form
         onSubmit={(e) => {
           addSymbol(e);
         }}
       >
-        <input type="text" id="symbol" name="symbol"></input>
+        <input
+        type="text"
+        id = "symbol"
+        name = "symbol"
+        ></input>
+        </form>
+      <div className="cardContainer"></div>
+      <form onSubmit={(e)=>{
+        submitReading(e);
+
+      }}>
+      
+      <input type='text' className="readingRecord" />
       </form>
       <div className="symbolContainer">
-        <ul>
-          {cardSymbols.map((symbol, index) => {
-            return <li key={index}>{symbol}</li>;
-          })}
-        </ul>
+      <ul>
+        {cardSymbols.map((symbol, index) => {
+          return <li key={index}>{symbol}</li>;
+        })}
+      </ul>
       </div>
       <div className="readingsContainer">
         <ul>
