@@ -110,7 +110,7 @@ const Journal = () => {
         date: formattedDate,
       })
         .then((response) => {
-          console.log("journals gotten" + response);
+          console.log("journals gotten");
           console.log(response.data);
           setAllMyJournals(response.data);
         })
@@ -212,26 +212,40 @@ const Journal = () => {
   function submitJournalOrDream(e) {
     e.preventDefault();
     e.stopPropagation();
+
+
+    let dateObserve = new Date();
+    let year = dateObserve.getFullYear();
+    let month = ("0" + (dateObserve.getMonth() + 1)).slice(-2);
+    let date = ("0" + dateObserve.getDate()).slice(-2);
+
+    let hours = ("0" + dateObserve.getHours()).slice(-2);
+    let minutes = ("0" + dateObserve.getMinutes()).slice(-2);
+    let seconds = ("0" + dateObserve.getSeconds()).slice(-2);
+
+    let formatted_date = `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
     var journalEntry = document.getElementById("journalInput").value;
     
-
-    setAllMyJournals([...allMyJournals, newEntry])
+    var newEntry
     if (journalMode === "dreams") {
-          var newEntry = {
+        newEntry = {
             userId: userProfile.id,
             dream: journalEntry,
             symbols: dreamSymbols.toString(),
+            //updated at today's date and time with a "T" between date and time
+            
           };
-      API.submitDreams({
+      API.submitDreams(
      newEntry
-      })
+      )
         .then((response) => {
           // If the API call is successful, fire another function
           if (response.status === 200) {
             // Call your other function here
             // functionName();
             console.log("calling the new function");
-            
+            newEntry.updatedAt = formatted_date
+            setAllMyJournals([...allMyJournals, newEntry])
 
             //route to spread page using the reacr router with props.parameters
           }
@@ -240,16 +254,21 @@ const Journal = () => {
           console.log(error);
         });
     } else {
-      API.submitJournal({
-        userId: userProfile.id,
-        writing: journalEntry,
-        symbols: dreamSymbols.toString(),
-      })
+           newEntry = {
+             userId: userProfile.id,
+             writing: journalEntry,
+             symbols: dreamSymbols.toString(),
+           };
+      API.submitJournal(
+        newEntry
+      )
         .then((response) => {
           // If the API call is successful, fire another function
           if (response.status === 200) {
             // Call your other function here
             // functionName();
+            newEntry.updatedAt = formatted_date;
+            setAllMyJournals([...allMyJournals, newEntry])
             console.log("calling the new function");
 
             //route to spread page using the reacr router with props.parameters
@@ -320,13 +339,61 @@ const Journal = () => {
       <div className="listOfEntries">
         {/* if journalmode is journal display all journals*/}
 
-        {allMyJournals.map((journal) =>
-          journalMode === "dreams" ? (
-            <div style={{ color: "white" }}>{journal.dream}</div>
-          ) : (
-            <div>{journal.writing}</div>
-          )
-        )}
+        {journalMode === "dreams"
+          ? allMyJournals.map((journal) => {
+              let firstNumber;
+              let secondNumber;
+              let amPm = "AM";
+              secondNumber = journal.updatedAt.split("T")[1].split(":")[1];
+              firstNumber = journal.updatedAt.split("T")[1].split(":")[0];
+              if (parseInt(firstNumber) > 12) {
+                amPm = "PM";
+                firstNumber = parseInt(firstNumber) - 12;
+              } else if (parseInt(firstNumber) === 12) {
+                amPm = "PM";
+              } else if (parseInt(firstNumber) === 0) {
+                firstNumber = 12;
+              }
+
+              return (
+                <div style={{ color: "white" }}>
+                  {firstNumber +
+                    " : " +
+                    secondNumber +
+                    " " +
+                    amPm +
+                    " : " +
+                    journal.dream}{" "}
+                </div>
+              );
+            })
+          : allMyJournals.map((journal) => {
+              let firstNumber;
+              let secondNumber;
+              let amPm = "AM";
+              secondNumber = journal.updatedAt.split("T")[1].split(":")[1];
+              firstNumber = journal.updatedAt.split("T")[1].split(":")[0];
+              if (parseInt(firstNumber) > 12) {
+                amPm = "PM";
+                firstNumber = parseInt(firstNumber) - 12;
+              } else if (parseInt(firstNumber) === 12) {
+                amPm = "PM";
+              } else if (parseInt(firstNumber) === 0) {
+                firstNumber = 12;
+              }
+
+              return (
+                <div style={{ color: "white" }}>
+                  {firstNumber +
+                    " : " +
+                    secondNumber +
+                    " " +
+                    amPm +
+                    " : " +
+                    journal.writing}{" "}
+                </div>
+              );
+            })}
       </div>
     </div>
   );

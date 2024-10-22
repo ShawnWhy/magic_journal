@@ -214,9 +214,10 @@ const Journal = () => {
     e.stopPropagation();
     var journalEntry = document.getElementById("journalInput").value;
     
-    var newEntry
+
+    setAllMyJournals([...allMyJournals, newEntry])
     if (journalMode === "dreams") {
-        newEntry = {
+          var newEntry = {
             userId: userProfile.id,
             dream: journalEntry,
             symbols: dreamSymbols.toString(),
@@ -230,7 +231,7 @@ const Journal = () => {
             // Call your other function here
             // functionName();
             console.log("calling the new function");
-            setAllMyJournals([...allMyJournals, newEntry])
+            
 
             //route to spread page using the reacr router with props.parameters
           }
@@ -239,20 +240,16 @@ const Journal = () => {
           console.log(error);
         });
     } else {
-           newEntry = {
-             userId: userProfile.id,
-             writing: journalEntry,
-             symbols: dreamSymbols.toString(),
-           };
       API.submitJournal({
-        newEntry
+        userId: userProfile.id,
+        writing: journalEntry,
+        symbols: dreamSymbols.toString(),
       })
         .then((response) => {
           // If the API call is successful, fire another function
           if (response.status === 200) {
             // Call your other function here
             // functionName();
-            setAllMyJournals([...allMyJournals, newEntry])
             console.log("calling the new function");
 
             //route to spread page using the reacr router with props.parameters

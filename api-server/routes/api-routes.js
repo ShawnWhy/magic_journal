@@ -104,7 +104,7 @@ module.exports = function (app) {
  db.Dream.findAll({
    where: Sequelize.and(
      Sequelize.where(
-       Sequelize.fn("date_format", Sequelize.col("Date"), "%Y-%m-%d"),
+       Sequelize.fn("date_format", Sequelize.col("date"), "%Y-%m-%d"),
        "=",
        req.body.date
      ),
