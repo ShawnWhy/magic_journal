@@ -97,7 +97,9 @@ const SymbolsJournal = (props) => {
     const getSpreadsThatContainSymbol = (list)=>{
       let newList = [];
       list.forEach((spread)=>{
-       let cards= spread.cards.toLowerCase() 
+       let cards= spread.Cards.toLowerCase() 
+       console.log("cards")
+       console.log(cards)
       if(cards.split(',').includes(symbol.toLowerCase())){
         newList.push(spread)
         console.log(symbol)
@@ -179,7 +181,7 @@ const SymbolsJournal = (props) => {
           );
         case "spreads":
           return <div>
-            <a href={`spreadPage/${journal.id}`}><p>{journal.id}</p></a>
+            <a href={`/spreadPage/${journal.id}`}><p>{journal.id}</p></a>
           </div>
         case "readings":  
           return <div>

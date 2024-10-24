@@ -215,33 +215,46 @@ const Cards = function(props) {
     });
   };
 
+  let throttle = "off"
   const selectCard = function (event, cardname) {
-    console.log(event);
-    //gradually decreate the opacity of the card and remove it after a 2 seconds
-    event.target.style.transition = "opacity 2s";
-    event.target.style.opacity = "0";
-    setTimeout(() => {
-      event.target.style.display = "none";
-    }, 2000);
-    console.log(cardname);
-    selectedCards.push(cardname);
-    console.log(selectedCards);
-    console.log(spreadMode);
+    if (throttle === "off") {
+      throttle = "on";
+      console.log(event);
 
-    if (spreadMode === "3_card_spread" && selectedCards.length == 3) {
+      // event.target.style.pointerEvents = "none";
+      //gradually decreate the opacity of the card and remove it after a 2 seconds
+      event.target.style.transition = "opacity .5s";
+      event.target.style.opacity = "0";
+      setTimeout(() => {
+        event.target.style.display = "none";
+      }, 500);
+      console.log(cardname);
+      selectedCards.push(cardname);
       console.log(selectedCards);
-      clearTable();
-      submitSpread(selectedCards);
-    } else if (spreadMode === "celtic_cross" && selectedCards.length == 10) {
-      console.log(selectedCards);
-       clearTable();
-       submitSpread(selectedCards);
-    } else if (spreadMode === "mind_heart_body" && selectedCards.length == 3) {
-      console.log(selectedCards);
-       clearTable();
-       submitSpread(selectedCards);
+      console.log(spreadMode);
+
+      if (spreadMode === "3_card_spread" && selectedCards.length == 3) {
+        console.log(selectedCards);
+        clearTable();
+        submitSpread(selectedCards);
+      } else if (spreadMode === "celtic_cross" && selectedCards.length == 10) {
+        console.log(selectedCards);
+        clearTable();
+        submitSpread(selectedCards);
+      } else if (
+        spreadMode === "mind_heart_body" &&
+        selectedCards.length == 3
+      ) {
+        console.log(selectedCards);
+        clearTable();
+        submitSpread(selectedCards);
+      }
+
+      setTimeout(() => {
+        throttle="off"
+      }, 500);
     }
-  };
+  }
 
   const [spreadMode, setSpreadMode] = useState("3_card_spread");
 
