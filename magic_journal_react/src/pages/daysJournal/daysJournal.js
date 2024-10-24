@@ -7,6 +7,22 @@ import { MyContext } from "../../contexts/myContext";
 import { useParams } from "react-router-dom";
 
 const DaysJournal = function (props) {
+
+
+ function renderSwitch(param) {
+  switch(param) {
+    case 'jounrals':
+      return 'bar';
+    case 'dreams':
+      return "car";
+    case 'spreads':
+      return "car3";
+    case 'readings':
+      return 'car4';
+    default:
+      return 'foo';
+  }
+}
   let { date } = useParams();
   console.log("params:", date);
 
