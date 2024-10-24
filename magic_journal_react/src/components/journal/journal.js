@@ -213,7 +213,6 @@ const Journal = () => {
     e.preventDefault();
     e.stopPropagation();
 
-
     let dateObserve = new Date();
     let year = dateObserve.getFullYear();
     let month = ("0" + (dateObserve.getMonth() + 1)).slice(-2);
@@ -225,27 +224,24 @@ const Journal = () => {
 
     let formatted_date = `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
     var journalEntry = document.getElementById("journalInput").value;
-    
-    var newEntry
+
+    var newEntry;
     if (journalMode === "dreams") {
-        newEntry = {
-            userId: userProfile.id,
-            dream: journalEntry,
-            symbols: dreamSymbols.toString(),
-            //updated at today's date and time with a "T" between date and time
-            
-          };
-      API.submitDreams(
-     newEntry
-      )
+      newEntry = {
+        userId: userProfile.id,
+        dream: journalEntry,
+        symbols: dreamSymbols.toString(),
+        //updated at today's date and time with a "T" between date and time
+      };
+      API.submitDreams(newEntry)
         .then((response) => {
           // If the API call is successful, fire another function
           if (response.status === 200) {
             // Call your other function here
             // functionName();
             console.log("calling the new function");
-            newEntry.updatedAt = formatted_date
-            setAllMyJournals([...allMyJournals, newEntry])
+            newEntry.updatedAt = formatted_date;
+            setAllMyJournals([...allMyJournals, newEntry]);
 
             //route to spread page using the reacr router with props.parameters
           }
@@ -254,21 +250,19 @@ const Journal = () => {
           console.log(error);
         });
     } else {
-           newEntry = {
-             userId: userProfile.id,
-             writing: journalEntry,
-             symbols: dreamSymbols.toString(),
-           };
-      API.submitJournal(
-        newEntry
-      )
+      newEntry = {
+        userId: userProfile.id,
+        writing: journalEntry,
+        symbols: dreamSymbols.toString(),
+      };
+      API.submitJournal(newEntry)
         .then((response) => {
           // If the API call is successful, fire another function
           if (response.status === 200) {
             // Call your other function here
             // functionName();
             newEntry.updatedAt = formatted_date;
-            setAllMyJournals([...allMyJournals, newEntry])
+            setAllMyJournals([...allMyJournals, newEntry]);
             console.log("calling the new function");
 
             //route to spread page using the reacr router with props.parameters
@@ -354,16 +348,31 @@ const Journal = () => {
               } else if (parseInt(firstNumber) === 0) {
                 firstNumber = 12;
               }
+              let symbolsArray = [];
+              if (journal.symbols && journal.symbols.length > 0) {
+                let symbols = journal.symbols;
+                symbolsArray = symbols.split(",");
+              }
 
               return (
                 <div style={{ color: "white" }}>
-                  {firstNumber +
-                    " : " +
-                    secondNumber +
-                    " " +
-                    amPm +
-                    " : " +
-                    journal.dream}{" "}
+                  <div style={{ color: "white" }}>
+                    {firstNumber +
+                      " : " +
+                      secondNumber +
+                      " " +
+                      amPm +
+                      " : " +
+                      journal.dream}{" "}
+                    {symbolsArray.length > 0 &&
+                      symbolsArray.map((symbol, index) => (
+                        <div key={index}>
+                          <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
+                            {symbol}
+                          </a>
+                        </div>
+                      ))}
+                  </div>
                 </div>
               );
             })
@@ -382,8 +391,15 @@ const Journal = () => {
                 firstNumber = 12;
               }
 
+              let symbolsArray = [];
+              if (journal.symbols && journal.symbols.length > 0) {
+                let symbols = journal.symbols;
+                symbolsArray = symbols.split(",");
+              }
+
               return (
                 <div style={{ color: "white" }}>
+                  <div style={{ color: "white" }}>
                   {firstNumber +
                     " : " +
                     secondNumber +
@@ -391,6 +407,15 @@ const Journal = () => {
                     amPm +
                     " : " +
                     journal.writing}{" "}
+                    </div>
+                  {symbolsArray.length > 0 &&
+                    symbolsArray.map((symbol, index) => (
+                      <div key={index}>
+                        <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
+                          {symbol}
+                        </a>
+                      </div>
+                    ))}
                 </div>
               );
             })}

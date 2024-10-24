@@ -85,7 +85,8 @@ const SymbolsJournal = (props) => {
     const getJournalsThatContainSymbol = (list) => {
       let newList = [];
       list.forEach((journal) => {
-        if(journal.symbols.split(',').includes(symbol)){
+        let symbols = journal.symbols.toLowerCase()
+        if(symbols.split(',').includes(symbol.toLowerCase())){
           newList.push(journal);
         }
       });
@@ -96,7 +97,8 @@ const SymbolsJournal = (props) => {
     const getSpreadsThatContainSymbol = (list)=>{
       let newList = [];
       list.forEach((spread)=>{
-      if(spread.Cards.split(',').includes(symbol)){
+       let cards= spread.cards.toLowerCase() 
+      if(cards.split(',').includes(symbol.toLowerCase())){
         newList.push(spread)
         console.log(symbol)
         
@@ -110,7 +112,8 @@ const SymbolsJournal = (props) => {
     const getReadingsThatContainSymbol =(list)=>{
       let newList = [];
       list.forEach((reading)=>{
-        if(reading.Symbols.split(",").includes(symbol)){
+        let symbols= reading.Symbols.toLowerCase()
+        if(reading.Symbols.split(",").includes(symbol.toLowerCase())){
           newList.push(reading)
         }
       })
@@ -131,12 +134,65 @@ const SymbolsJournal = (props) => {
   return (
    <div>
     {journallist.map((journal) => {
-      
-        return <div>
-          <p>{journal.id}</p>
-          
-        </div>
-      
+      var symbols = []
+      if(journal.symbols && journal.symbols.lenth>0 && ! mode==="readings" ){
+        symbols = journal.symbols.split(",")
+      }
+      else if(journal.Symbols && journal.Symbols.length>0 && mode==="readings"){
+        symbols = journal.Symbols.split(",");
+
+      }
+      //switch mode
+      switch (mode) {
+        case "journal":
+          return <div>
+            <p>{journal.writing}</p>
+            {symbols.length>0 && <p>{symbols.map((symbol)=>{
+              return (
+                <a href={`/symbolsJournal/${symbol}/journals`}>
+                  {" "}
+                  <p>{symbol}</p>
+                </a>
+              );
+
+            })}</p>
+          }
+            
+          </div>
+        case "dreams":
+          return (
+            <div>
+              <p>{journal.dream}</p>
+              {symbols.length > 0 && (
+                <p>
+                  {symbols.map((symbol) => {
+                    return (
+                      <a href={`/symbolsJournal/${symbol}/dreams`}>
+                        {" "}
+                        <p>{symbol}</p>
+                      </a>
+                    );
+                  })}
+                </p>
+              )}
+            </div>
+          );
+        case "spreads":
+          return <div>
+            <a href={`spreadPage/${journal.id}`}><p>{journal.id}</p></a>
+          </div>
+        case "readings":  
+          return <div>
+            <p>{journal.ReadingText}</p>
+            
+          </div>
+        default:
+          return <div>
+            <p>{journal.id}</p>
+            <p>{journal.entry}</p>
+          </div>
+      } 
+
       
     })
   }

@@ -459,6 +459,13 @@ const SpreadReadPage = function(props) {
         overflow: "auto",
       }}
     >
+      <div>
+{cardsData.map((card) => {
+  return (
+    <div><a href={`/symbolsJournal/${card}/spreads`}>{card}</a></div>
+  );
+})}
+      </div>
       <div className="cardContainer"></div>
       <form
         onSubmit={(e) => {
