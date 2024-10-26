@@ -9,20 +9,7 @@ import { useParams } from "react-router-dom";
 const DaysJournal = function (props) {
 
 
- function renderSwitch(param) {
-  switch(param) {
-    case 'jounrals':
-      return 'bar';
-    case 'dreams':
-      return "car";
-    case 'spreads':
-      return "car3";
-    case 'readings':
-      return 'car4';
-    default:
-      return 'foo';
-  }
-}
+
   let { date } = useParams();
   console.log("params:", date);
 
@@ -58,10 +45,16 @@ const DaysJournal = function (props) {
 
         return (
           <div>
-            <p className="journalWriting">{journal.writing}</p>
+            <p className="journalWriting">
+              {journal.writing}
+              </p>
             {journal.symbols.length>0
               ? journal.symbols.split(',').map((symbol) => {
-                  return <p className="journalSymbol">{symbol}</p>;
+                  return (
+                    <a href={'/symbolsJournal/'+symbol + '/journal' }>
+                      <p className="journalSymbol">{symbol}</p>
+                    </a>
+                  );
                 })
               : journal.symbols}
           </div>

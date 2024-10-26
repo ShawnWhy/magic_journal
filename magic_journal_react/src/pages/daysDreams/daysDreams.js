@@ -43,10 +43,10 @@ const DaysDreams = function (props) {
 
         return (
           <div>
-            <p className="journalWriting">{journal.writing}</p>
+            <p className="journalWriting">{journal.dream}</p>
             {journal.symbols.length > 0
               ? journal.symbols.split(",").map((symbol) => {
-                  return <p className="journalSymbol">{symbol}</p>;
+                  return <a href={'/symbolsJournal/'+symbol+'/dreams'}><p className="journalSymbol">{symbol}</p></a>;
                 })
               : journal.symbols}
           </div>
