@@ -37,77 +37,69 @@ const Menu = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
 return (
-  
-          <div className="row justify-content-center">
-            <div className="margin title_linkLogo title_link">
-              <div>Magic journal</div>
-     
-            </div>
-            <div className="menuRow">
-            <div className="home">
-              <Link to="/">Home Page</Link>
-            </div>
-            <div className="margin title_link2 title_link">
-              <Link to="/Calendar">Calendar</Link>
-            </div>
-
-            <div
-              className={
-                loggedIn === false
-                  ? "visible title_link3 title_link"
-                  : "invisible"
-              }
-            >
-              <a 
-                onClick={(e) => {
-                  loginModalDeploy(e);
-                }}
-                href="#"
-              >
-                Log In
-              </a>
-            </div>
-            <div
-              className={
-                loggedIn === false
-                  ? "visible title_link4 title_link"
-                  : "invisible"
-              }
-            >
-              <a
-                onClick={(e) => {
-                  signUpModalDeploy(e);
-                }}
-                href=""
-              >
-                Sign Up
-              </a>
-            </div>
-            <div
-            
-              className={
-                loggedIn === false
-                  ? "invisible "
-                  : "visible title_link3 title_link logoutColor"
-              }
-            >
-              <a
-                onClick={(e) => {
-                  logOut(e);
-                }}
-                href="#"
-              >
-                Log Out
-              </a>
-            </div>
-
-            <div className="margin title_link4 title_link">
-              <Link to="/contact">Contact</Link>
-            </div>
-            </div>
-          </div>
-
+  <div className="row justify-content-center">
+    <div className="margin title_linkLogo title_link">
+      <div>Magic journal</div>
+    </div>
+    <div className="menuRow">
       
+        <Link to="/">Home Page</Link>
+      
+        <Link className="margin title_link2 title_link" to="/Calendar">
+          Calendar
+        </Link>
+      
+
+      <div
+        className={
+          loggedIn === false ? "visible title_link3 title_link" : "invisible"
+        }
+      >
+        <a
+          onClick={(e) => {
+            loginModalDeploy(e);
+          }}
+          href="#"
+        >
+          Log In
+        </a>
+      </div>
+      <div
+        className={
+          loggedIn === false ? "visible title_link4 title_link" : "invisible"
+        }
+      >
+        <a
+          onClick={(e) => {
+            signUpModalDeploy(e);
+          }}
+          href=""
+        >
+          Sign Up
+        </a>
+      </div>
+      <div
+        className={
+          loggedIn === false
+            ? "invisible "
+            : "visible title_link3 title_link logoutColor"
+        }
+      >
+        <a
+          onClick={(e) => {
+            logOut(e);
+          }}
+          href="#"
+        >
+          Log Out
+        </a>
+      </div>
+
+      <div className="margin title_link4 title_link">
+        <Link to="/contact">Contact</Link>
+      </div>
+    </div>
+  </div>
 );
         };
 

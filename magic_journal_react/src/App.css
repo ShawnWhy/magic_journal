@@ -55,3 +55,40 @@
 .menuRow *{
   margin:auto;
 }
+
+
+.menuRow * {
+    /* height: 100px; */
+    padding: 5px;
+    background: rgb(253, 253, 254);
+    color:black;
+    font-size: larger;
+    font-weight: bolder;
+    margin: 5px auto;
+    min-width: 200px;
+    border-radius:10px;
+}
+
+.menuRow *:hover{
+  background-color: rgb(172, 127, 43);
+  color:rgb(255, 255, 255);
+}
+
+.menuRow * a{
+  background-color: unset;
+  color:unset
+}
+
+@media only screen and (max-width: 600px) {
+.menuRow{
+  flex-direction: column;
+  display:flex;
+}
+
+.menuRow *{
+  width:80%;
+  
+  
+}
+  
+}

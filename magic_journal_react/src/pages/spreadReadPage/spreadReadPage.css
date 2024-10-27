@@ -167,3 +167,15 @@
     padding:5px;
     margin:auto;
 }
+
+.symbolsList{
+    display:flex;
+    margin:1% auto;
+    text-align:center;
+}
+.symbolsList *{
+ margin: 5px auto;
+ padding:5px
+
+
+}

@@ -459,9 +459,9 @@ app.get("/api/getReadingsByUser/:id", function (req, res) {
       SeekerName: req.body.seekerName,
       Question: req.body.question,
       ReaderId: req.body.readerId,
-      ReaderName: req.body.readerName,
-      Symbols: req.body.symbols,
-      ReadingText: req.body.readingText,
+      ReaderName: req.body.ReaderName,
+      Symbols: req.body.Symbols,
+      ReadingText: req.body.ReadingText,
     })
 
       .then(function (result) {

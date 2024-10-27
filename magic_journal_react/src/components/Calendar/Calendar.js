@@ -343,7 +343,7 @@ const Calendar = () => {
                 ) : (
                   <div>
                     <div>{day.dateFormated}</div>
-
+                    <div className="spreadList">
                     {day.list.map((spread) => {
                       return (
                         <a
@@ -354,6 +354,7 @@ const Calendar = () => {
                         </a>
                       );
                     })}
+                    </div>
                   </div>
                 )
               ) : index > fistDayIndexDisplay - 1 && day !== " " ? (

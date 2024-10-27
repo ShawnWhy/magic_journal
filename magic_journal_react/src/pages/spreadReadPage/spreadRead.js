@@ -361,14 +361,14 @@ const SpreadReadPage = function(props) {
           seekerName: spreadData.SeekerName,
           question: spreadData.Question,
           readerId: parseInt(userProfile.id),
-          readerName: userProfile.name,
-          symbols: cardSymbols.toString(),
-          readingText: reading,
+          ReaderName: userProfile.name,
+          Symbols: cardSymbols.toString(),
+          ReadingText: reading,
         };
         console.log(body);
         API.createReading(body).then((res)=>{
           console.log(res);
-          getReadings();
+          setReadings([...readings, body])
         }).catch((err)=>{console.log(err)});
       }
 
@@ -455,16 +455,18 @@ const SpreadReadPage = function(props) {
       className="table"
       style={{
         width: "100%",
-        height: "100vh",
+        // height: "100vh",
         overflow: "auto",
       }}
     >
-      <div>
-{cardsData.map((card) => {
-  return (
-    <div><a href={`/symbolsJournal/${card}/spreads`}>{card}</a></div>
-  );
-})}
+      <div className="symbolsList">
+        {cardsData.map((card) => {
+          return (
+            <div className="symbolsListItem">
+              <a href={`/symbolsJournal/${card}/spreads`}>{card}</a>
+            </div>
+          );
+        })}
       </div>
       <div className="cardContainer"></div>
       <form
@@ -473,7 +475,7 @@ const SpreadReadPage = function(props) {
         }}
       >
         <textarea className="readingRecord" />
-        <input className = "submitReading" type="submit"/>
+        <input className="submitReading" type="submit" />
       </form>
 
       <form
@@ -493,7 +495,21 @@ const SpreadReadPage = function(props) {
       <div className="readingsContainer">
         <ul>
           {readings.map((reading, index) => {
-            return <li key={index}>{reading.ReadingText}</li>;
+            let symbols = reading.Symbols.split(",");
+            return (
+              <li key={index}>
+                {reading.ReaderName} : {reading.ReadingText}
+                <div>associated symbols: </div>
+                {symbols.length > 0 &&
+                  symbols.map((symbol) => {
+                    return (
+                      <a href={`/symbolsJournal/` + symbol + `/readings`}>
+                        <div>{symbol}</div>
+                      </a>
+                    );
+                  })}
+              </li>
+            );
           })}
         </ul>
       </div>
