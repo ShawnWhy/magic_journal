@@ -127,10 +127,17 @@ const Journal = () => {
   function setDreamSymbolsFunction(e) {
     e.stopPropagation();
     e.preventDefault();
+    
     var journalSymbol = document.getElementById("journalSymbolInput").value;
-
-    setDreamSymbols([...dreamSymbols, journalSymbol]);
-    console.log(dreamSymbols);
+    if (
+      journalSymbol.length > 0 &&
+      //and journalSymbol is only in letters and numbers
+      journalSymbol.match(/^[A-Za-z0-9]*$/)
+    ) {
+      document.getElementById("journalSymbolInput").value = "";
+      setDreamSymbols([...dreamSymbols, journalSymbol]);
+      console.log(dreamSymbols);
+    }
   }
   const [dreamSymbols, setDreamSymbols] = useState([]);
   var agents = [];
@@ -213,64 +220,70 @@ const Journal = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    let dateObserve = new Date();
-    let year = dateObserve.getFullYear();
-    let month = ("0" + (dateObserve.getMonth() + 1)).slice(-2);
-    let date = ("0" + dateObserve.getDate()).slice(-2);
-
-    let hours = ("0" + dateObserve.getHours()).slice(-2);
-    let minutes = ("0" + dateObserve.getMinutes()).slice(-2);
-    let seconds = ("0" + dateObserve.getSeconds()).slice(-2);
-
-    let formatted_date = `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
     var journalEntry = document.getElementById("journalInput").value;
 
-    var newEntry;
-    if (journalMode === "dreams") {
-      newEntry = {
-        userId: userProfile.id,
-        dream: journalEntry,
-        symbols: dreamSymbols.toString(),
-        //updated at today's date and time with a "T" between date and time
-      };
-      API.submitDreams(newEntry)
-        .then((response) => {
-          // If the API call is successful, fire another function
-          if (response.status === 200) {
-            // Call your other function here
-            // functionName();
-            console.log("calling the new function");
-            newEntry.updatedAt = formatted_date;
-            setAllMyJournals([...allMyJournals, newEntry]);
+    if(journalEntry.length>10
+    ){
+      document.getElementById("journalInput").value='';
+      setDreamSymbols([])
+      let dateObserve = new Date();
+      let year = dateObserve.getFullYear();
+      let month = ("0" + (dateObserve.getMonth() + 1)).slice(-2);
+      let date = ("0" + dateObserve.getDate()).slice(-2);
 
-            //route to spread page using the reacr router with props.parameters
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      newEntry = {
-        userId: userProfile.id,
-        writing: journalEntry,
-        symbols: dreamSymbols.toString(),
-      };
-      API.submitJournal(newEntry)
-        .then((response) => {
-          // If the API call is successful, fire another function
-          if (response.status === 200) {
-            // Call your other function here
-            // functionName();
-            newEntry.updatedAt = formatted_date;
-            setAllMyJournals([...allMyJournals, newEntry]);
-            console.log("calling the new function");
+      let hours = ("0" + dateObserve.getHours()).slice(-2);
+      let minutes = ("0" + dateObserve.getMinutes()).slice(-2);
+      let seconds = ("0" + dateObserve.getSeconds()).slice(-2);
 
-            //route to spread page using the reacr router with props.parameters
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      let formatted_date = `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
+
+      var newEntry;
+      if (journalMode === "dreams") {
+        newEntry = {
+          userId: userProfile.id,
+          dream: journalEntry,
+          symbols: dreamSymbols.toString(),
+          //updated at today's date and time with a "T" between date and time
+        };
+        API.submitDreams(newEntry)
+          .then((response) => {
+            // If the API call is successful, fire another function
+            if (response.status === 200) {
+              // Call your other function here
+              // functionName();
+              console.log("calling the new function");
+              newEntry.updatedAt = formatted_date;
+              setAllMyJournals([...allMyJournals, newEntry]);
+
+              //route to spread page using the reacr router with props.parameters
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        newEntry = {
+          userId: userProfile.id,
+          writing: journalEntry,
+          symbols: dreamSymbols.toString(),
+        };
+        API.submitJournal(newEntry)
+          .then((response) => {
+            // If the API call is successful, fire another function
+            if (response.status === 200) {
+              // Call your other function here
+              // functionName();
+              newEntry.updatedAt = formatted_date;
+              setAllMyJournals([...allMyJournals, newEntry]);
+              console.log("calling the new function");
+
+              //route to spread page using the reacr router with props.parameters
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   }
   const contextValues = useContext(MyContext);
@@ -300,6 +313,8 @@ const Journal = () => {
             <button onClick={() => setJournalMode(mode)}>{mode}</button>
           ))}
         </div>
+      </div>
+      <div className="formsDiv">
         <div id="recordLabel">record your {journalMode}</div>
         <form
           className="journalForm"
@@ -308,11 +323,8 @@ const Journal = () => {
           }}
         >
           <textarea id="journalInput"></textarea>
-          <label name="symbolsLable" id="symbolLable">
-            symbols
-          </label>
 
-          <input type="submit"></input>
+          <button type="submit">Submit Journal</button>
         </form>
         <form
           id="symbolsForm"
@@ -320,7 +332,12 @@ const Journal = () => {
             setDreamSymbolsFunction(e);
           }}
         >
+          <div name="symbolsLable" id="symbolLable">
+            symbols
+          </div>
           <input id="journalSymbolInput" name="symbols" type="text"></input>
+
+          <button type="submit">Submit Symbol</button>
           <div className="selectedSymbolsDiv">
             {dreamSymbols.length > 0
               ? dreamSymbols.map((symbol) => {
@@ -400,14 +417,14 @@ const Journal = () => {
               return (
                 <div style={{ color: "white" }}>
                   <div style={{ color: "white" }}>
-                  {firstNumber +
-                    " : " +
-                    secondNumber +
-                    " " +
-                    amPm +
-                    " : " +
-                    journal.writing}{" "}
-                    </div>
+                    {firstNumber +
+                      " : " +
+                      secondNumber +
+                      " " +
+                      amPm +
+                      " : " +
+                      journal.writing}{" "}
+                  </div>
                   {symbolsArray.length > 0 &&
                     symbolsArray.map((symbol, index) => (
                       <div key={index}>
