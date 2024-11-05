@@ -5,89 +5,26 @@ import React, { useState, useContext, useEffect } from "react";
 import { MyContext } from "../../contexts/myContext";
 import "./journal.css";
 import API from "../../utils/API";
+import sunFace from "../../public/images/sun/sunface.svg"
+import sunRay1 from "../../public/images/sun/ray1.svg"
+import sunRay2 from "../../public/images/sun/ray2.svg"
+import star from "../../public/images/star/star.svg"
 
-export class Vector {
-  x;
-  y;
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  getDistance(v) {
-    const dx = this.x - v.x;
-    const dy = this.y - v.y;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-}
-
-class Agent {
-  pos;
-  vel;
-  radius;
-  fillStyle;
-  constructor(x, y, fillStyle) {
-    this.pos = new Vector(x, y);
-    this.vel = new Vector(
-      (Math.random() * 2 - 1) * 0.1,
-      (Math.random() * 2 - 1) * 0.5
-    );
-
-    this.radius = Math.floor(Math.random() * 10 + 5);
-    this.fillStyle = fillStyle;
-  }
-
-  bounce(width, height) {
-    if (this.pos.x <= 0 || this.pos.x >= width) this.vel.x *= -1;
-    if (this.pos.y <= 0 || this.pos.y >= height) this.vel.y *= -1;
-  }
-
-  update() {
-    this.pos.x += this.vel.x;
-    this.pos.y += this.vel.y;
-  }
-  draw(context) {
-    context.save();
-    context.translate(this.pos.x, this.pos.y);
-    context.fillStyle = this.fillStyle;
-
-    const outerRadius = this.radius;
-    const innerRadius = this.radius / 2;
-    const spikes = 5; // Number of spikes for the star
-
-    let rotation = (Math.PI / 2) * 3;
-    let x = 0;
-    let y = 0;
-
-    const step = Math.PI / spikes;
-
-    context.beginPath();
-    context.moveTo(this.pos.x, this.pos.y - outerRadius);
-
-    for (let i = 0; i < spikes; i++) {
-      x = this.pos.x + Math.cos(rotation) * outerRadius;
-      y = this.pos.y + Math.sin(rotation) * outerRadius;
-      context.lineTo(x, y);
-      rotation += step;
-
-      x = this.pos.x + Math.cos(rotation) * innerRadius;
-      y = this.pos.y + Math.sin(rotation) * innerRadius;
-      context.lineTo(x, y);
-      rotation += step;
-    }
-
-    context.lineTo(this.pos.x, this.pos.y - outerRadius);
-    context.closePath();
-    context.lineWidth = 2;
-    context.strokeStyle = "black";
-    context.stroke();
-    context.fill();
-
-    context.restore();
-  }
-}
 
 const Journal = () => {
+
+  const rotateRaysInitial =function(){
+    var SunRays1 = document.getElementsByClassName("Ray1");
+    if (SunRays1.length > 0) {
+      Array.from(SunRays1).forEach((ray, index) => {
+        setTimeout(() => {
+          ray.style.transform="transform:rotate(" +index * 30 +"deg)"
+          
+        }, index * 100);
+      });
+    }
+  }
+
   const getJournalorDreams = function () {
     var formattedDate = new Date().toISOString().slice(0, 10);
     console.log(formattedDate);
@@ -122,6 +59,7 @@ const Journal = () => {
   useEffect(() => {
     // createJournalAnimation();
     getJournalorDreams();
+    rotateRaysInitial();
   }, []);
 
   function setDreamSymbolsFunction(e) {
@@ -149,14 +87,7 @@ const Journal = () => {
     canvasWidth = e.target.innerWidth;
   }
 
-  function sketch(canvasWidth, canvasHeight) {
-    for (let i = 0; i < 10; i++) {
-      const x = Math.floor(Math.random() * canvasWidth);
-      const y = Math.floor(Math.random() * canvasHeight);
-      const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
-      agents.push(new Agent(x, y, color));
-    }
-  }
+
 
   let dotsmove = "on";
 
@@ -204,17 +135,7 @@ const Journal = () => {
     tick();
   }
 
-  function createJournalAnimation() {
-    canvas = document.getElementById("journalCanvas");
-    context = canvas.getContext("2d");
-    canvasHeight = canvas.height;
-    canvasWidth = canvas.width;
-    console.log("height ", canvasHeight);
-    console.log("width", canvasWidth);
 
-    sketch(canvasWidth / 2, canvasHeight / 2);
-    startAnimating(60);
-  }
 
   function submitJournalOrDream(e) {
     e.preventDefault();
@@ -436,6 +357,71 @@ const Journal = () => {
                 </div>
               );
             })}
+      </div>
+      <div className="SunContainer">
+        <div
+          className="sunFace"
+          style={{
+            backgroundImage: `url(${sunFace})`,
+          }}
+        ></div>
+        <div className="RayConrainer1">
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+          <div
+            className="Ray1"
+            style={{
+              backgroundImage: `url(${sunRay1})`,
+            }}
+          ></div>
+        </div>
+        <div className="RayContainer2">
+          {allMyJournals.length > 0 &&
+            allMyJournals[0].symbols.split(",").map((symbol, index) => (
+              <div key={index}>
+                <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
+                  <div
+                    className="Ray2"
+                    style={{ transform: `rotate(${index * 30}deg)` }}
+                  ></div>
+                </a>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
