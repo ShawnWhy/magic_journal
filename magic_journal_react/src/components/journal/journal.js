@@ -18,7 +18,7 @@ const Journal = () => {
     if (SunRays1.length > 0) {
       Array.from(SunRays1).forEach((ray, index) => {
         setTimeout(() => {
-          ray.style.transform="transform:rotate(" +index * 30 +"deg)"
+          ray.style.transform="rotate(" +index * 30 +"deg)"
           
         }, index * 100);
       });
@@ -59,8 +59,9 @@ const Journal = () => {
   useEffect(() => {
     // createJournalAnimation();
     getJournalorDreams();
-    rotateRaysInitial();
   }, []);
+
+
 
   function setDreamSymbolsFunction(e) {
     e.stopPropagation();
@@ -223,7 +224,13 @@ const Journal = () => {
   useEffect(() => {
     // createJournalAnimation();
     getJournalorDreams();
+
+          if (journalMode === "journal") {
+            rotateRaysInitial();
+          }
   }, [journalMode]);
+
+
 
   return (
     <div className={"row table " + journalMode}>
@@ -358,6 +365,8 @@ const Journal = () => {
               );
             })}
       </div>
+      {journalMode==="journal" && (
+      
       <div className="SunContainer">
         <div
           className="sunFace"
@@ -423,6 +432,7 @@ const Journal = () => {
             ))}
         </div>
       </div>
+)}
     </div>
   );
 };
