@@ -199,6 +199,7 @@ background: linear-gradient(0deg, rgba(87,89,70,1) 1%, rgba(0,0,0,1) 100%);
 
 }
 .Ray1{
+    transform:rotate(0deg);
     position: absolute;
     height: 35%;
     width: 350%;
@@ -206,6 +207,8 @@ background: linear-gradient(0deg, rgba(87,89,70,1) 1%, rgba(0,0,0,1) 100%);
     left: -120%;
     background-repeat: no-repeat;
     background-size: cover;
+    transition:all;
+    transition-duration: .5s;
 
 
 }

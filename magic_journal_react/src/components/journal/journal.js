@@ -13,6 +13,27 @@ import star from "../../public/images/star/star.svg"
 
 const Journal = () => {
 
+
+  const extractSymbols = function(array){
+    var symbolArray = [];
+
+    array.forEach(journal=>{
+
+        if (journal.symbols.split(",").length > 0) {
+          journal.symbols.split(",").forEach((symbol) => {
+            console.log(symbol);
+            symbolArray.push(symbol);
+          });
+          //concat the todaysSymbols array with symbolArray
+          
+        }
+
+      })
+                console.log(symbolArray);
+      setTodaysSymbols(symbolArray)
+
+  }
+
   const rotateRaysInitial =function(){
     var SunRays1 = document.getElementsByClassName("Ray1");
     if (SunRays1.length > 0) {
@@ -63,6 +84,7 @@ const Journal = () => {
 
 
 
+
   function setDreamSymbolsFunction(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -87,6 +109,9 @@ const Journal = () => {
     canvasHeight = e.target.innerHeight + 300;
     canvasWidth = e.target.innerWidth;
   }
+
+
+
 
 
 
@@ -137,7 +162,7 @@ const Journal = () => {
   }
 
 
-
+ const [todaysSymbols, setTodaysSymbols ]= useState([]);
   function submitJournalOrDream(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -219,7 +244,7 @@ const Journal = () => {
   });
   const journalModes = ["dreams", "journal"];
 
-  const [journalMode, setJournalMode] = useState("journal");
+  const [journalMode, setJournalMode] = useState("dreams");
 
   useEffect(() => {
     // createJournalAnimation();
@@ -229,6 +254,12 @@ const Journal = () => {
             rotateRaysInitial();
           }
   }, [journalMode]);
+
+      useEffect(() => {
+        
+          extractSymbols(allMyJournals);
+        
+      }, [allMyJournals]);
 
 
 
@@ -365,74 +396,72 @@ const Journal = () => {
               );
             })}
       </div>
-      {journalMode==="journal" && (
-      
-      <div className="SunContainer">
-        <div
-          className="sunFace"
-          style={{
-            backgroundImage: `url(${sunFace})`,
-          }}
-        ></div>
-        <div className="RayConrainer1">
+      {journalMode === "journal" && (
+        <div className="SunContainer">
           <div
-            className="Ray1"
+            className="sunFace"
             style={{
-              backgroundImage: `url(${sunRay1})`,
+              backgroundImage: `url(${sunFace})`,
             }}
           ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
-          <div
-            className="Ray1"
-            style={{
-              backgroundImage: `url(${sunRay1})`,
-            }}
-          ></div>
+          <div className="RayConrainer1">
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+            <div
+              className="Ray1"
+              style={{
+                backgroundImage: `url(${sunRay1})`,
+              }}
+            ></div>
+          </div>
+          <div className="RayContainer2">
+            {
+            
+            todaysSymbols.length > 0 ? (
+              todaysSymbols.map((symbol, index) => (
+                <div key={index}>
+                  <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
+                    <div
+                      className="Ray2"
+                      style={{ transform: `rotate(${index * 30}deg)` }}
+                    ></div>
+                  </a>
+                </div>
+              ))
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
-        <div className="RayContainer2">
-          {allMyJournals.length > 0 &&
-            allMyJournals[0].symbols.split(",").map((symbol, index) => (
-              <div key={index}>
-                <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
-                  <div
-                    className="Ray2"
-                    style={{ transform: `rotate(${index * 30}deg)` }}
-                  ></div>
-                </a>
-              </div>
-            ))}
-        </div>
-      </div>
-)}
+      )}
     </div>
   );
 };
