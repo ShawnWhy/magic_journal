@@ -14,6 +14,20 @@ import star from "../../public/images/star/star.svg"
 const Journal = () => {
 
 
+  const pauseDots = function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    let parent = e.target.parentElement.parentElement;
+    parent.style.animationPlayState = "paused";
+  }
+  const resumeDots = function(e){ 
+    e.stopPropagation();
+    e.preventDefault();
+    let parent = e.target.parentElement.parentElement;
+    parent.style.animationPlayState = "running";
+  }
+
+
   const extractSymbols = function(array){
     var symbolArray = [];
 
@@ -97,6 +111,7 @@ const Journal = () => {
     ) {
       document.getElementById("journalSymbolInput").value = "";
       setDreamSymbols([...dreamSymbols, journalSymbol]);
+      setTodaysSymbols([...todaysSymbols, journalSymbol]);
       console.log(dreamSymbols);
     }
   }
@@ -173,6 +188,7 @@ const Journal = () => {
     ){
       document.getElementById("journalInput").value='';
       setDreamSymbols([])
+      setTodaysSymbols([])
       let dateObserve = new Date();
       let year = dateObserve.getFullYear();
       let month = ("0" + (dateObserve.getMonth() + 1)).slice(-2);
@@ -404,7 +420,7 @@ const Journal = () => {
               backgroundImage: `url(${sunFace})`,
             }}
           ></div>
-          <div className="RayConrainer1">
+          <div className="RayContainer1">
             <div
               className="Ray1"
               style={{
@@ -446,16 +462,43 @@ const Journal = () => {
             {
             
             todaysSymbols.length > 0 ? (
-              todaysSymbols.map((symbol, index) => (
-                <div key={index}>
-                  <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
-                    <div
-                      className="Ray2"
-                      style={{ transform: `rotate(${index * 30}deg)` }}
-                    ></div>
-                  </a>
-                </div>
-              ))
+              todaysSymbols.map((symbol, index) => {
+                var random1 = Math.floor(Math.random() * 80) + 20;
+                var random2= Math.floor(Math.random() * 80) + 20;
+                var random3 = Math.floor(Math.random() * 80) + 20;
+                var randomInt = Math.floor(Math.random() * 2)+2;
+                var randomInt2 = Math.floor(Math.random() * 2)+1;
+                var randomColor1 = Math.floor(Math.random() * 255);
+                var randomColor2 = Math.floor(Math.random() * 255);
+                var randomColor3 = Math.floor(Math.random() * 255);
+            
+                return (
+                  <div
+                    className="rayIndividualContainer"
+                    key={index}
+                    style={{
+                      animation: `rotationSlow ${randomInt}s linear infinite`,
+                      animationDelay: `${index * 0.1}s`,
+                    }}
+                  >
+                    <a href={`/symbolsJournal/${symbol}/${journalMode}`}>
+                      <div
+                        className="Ray2"
+                        onMouseEnter={(e) => pauseDots(e)}
+                        onMouseLeave={(e) => resumeDots(e)}
+                        style={{
+                          transform: `rotate(${
+                            index * 30
+                          }deg) translate(${random1}px, ${random2}px) scale(${
+                            random3 / 100
+                          })`,
+                          backgroundColor: `rgba(${randomColor1}, ${randomColor2}, ${randomColor3}, 0.5)`,
+                        }}
+                      ></div>
+                    </a>
+                  </div>
+                );
+              })
             ) : (
               <div></div>
             )}
