@@ -12,7 +12,7 @@ import star from "../../public/images/star/star.svg"
 
 
 const Journal = () => {
-
+const [countDown, setCountDown] =useState(0) 
 
   const pauseDots = function(e){
     e.stopPropagation();
@@ -262,6 +262,8 @@ const Journal = () => {
 
   const [journalMode, setJournalMode] = useState("dreams");
 
+
+
   useEffect(() => {
     // createJournalAnimation();
     getJournalorDreams();
@@ -277,6 +279,47 @@ const Journal = () => {
         
       }, [allMyJournals]);
 
+//       clearInterval()
+//       const spinInterval = setInterval(() => {
+
+  
+//     console.log(countDown)
+//     if(countDown>0){
+//     let tempCountDown = countDown - 1
+//     setCountDown(tempCountDown)
+//     // var container = document.getElementsByClassName("RayContainer1")[0];
+//     // if (container) {
+//     //   container.style.animationPlayState = "running";
+//     // }
+//     }
+//     else{
+//     console.log("pause");
+//     var container = document.getElementsByClassName("RayContainer1")[0];
+//     if(container){
+//     container.style.animationPlayState="paused" 
+//     }
+//   }
+//   }, 1000);
+// var throttle = "off"
+// const keyDownFunction = function(){
+
+//   var container = document.getElementsByClassName("RayContainer1")[0];
+//   if(container){
+//       // countDown += 3;
+//    let tempCountDown = countDown + 3
+//    setCountDown(tempCountDown)
+//   container.style.animationPlayState = "running"
+  
+//   // throttle="on"
+//   setTimeout(() => {
+//   container.style.animationPlayState = "paused";
+
+
+//   }, 3000);
+// }
+
+
+// }
 
 
   return (
@@ -297,7 +340,12 @@ const Journal = () => {
             submitJournalOrDream(e);
           }}
         >
-          <textarea id="journalInput"></textarea>
+          <textarea
+            id="journalInput"
+            // onKeyDownCapture={
+            //   keyDownFunction
+            // }
+          ></textarea>
 
           <button type="submit">Submit Journal</button>
         </form>
@@ -420,7 +468,17 @@ const Journal = () => {
               backgroundImage: `url(${sunFace})`,
             }}
           ></div>
-          <div className="RayContainer1">
+          <div
+            className="RayContainer1"
+            //   style={
+            //     countdown>0?
+            //     {
+            //       animationPlayState: "running"
+            //   }:
+            // {
+            //   ainmationPlayState:"paused"
+            // }}
+          >
             <div
               className="Ray1"
               style={{
@@ -459,19 +517,17 @@ const Journal = () => {
             ></div>
           </div>
           <div className="RayContainer2">
-            {
-            
-            todaysSymbols.length > 0 ? (
+            {todaysSymbols.length > 0 ? (
               todaysSymbols.map((symbol, index) => {
                 var random1 = Math.floor(Math.random() * 80) + 20;
-                var random2= Math.floor(Math.random() * 80) + 20;
+                var random2 = Math.floor(Math.random() * 80) + 20;
                 var random3 = Math.floor(Math.random() * 80) + 20;
-                var randomInt = Math.floor(Math.random() * 2)+2;
-                var randomInt2 = Math.floor(Math.random() * 2)+1;
+                var randomInt = Math.floor(Math.random() * 2) + 2;
+                var randomInt2 = Math.floor(Math.random() * 2) + 1;
                 var randomColor1 = Math.floor(Math.random() * 255);
                 var randomColor2 = Math.floor(Math.random() * 255);
                 var randomColor3 = Math.floor(Math.random() * 255);
-            
+
                 return (
                   <div
                     className="rayIndividualContainer"
@@ -503,6 +559,36 @@ const Journal = () => {
               <div></div>
             )}
           </div>
+        </div>
+      )}
+
+      {journalMode === "dreams" && (
+        <div className="starContainer">
+          {todaysSymbols.map((symbol, index) => {
+            //random color
+            var random1 = Math.floor(Math.random() * 80) + 5;
+            var random2 = Math.floor(Math.random() * 80) + 5;
+            var random3 = Math.floor(Math.random() * 80) + 20;
+            var random4 = Math.floor(Math.random()*60)-30
+            //  var randomInt = Math.floor(Math.random() * 2) + 2;
+            //  var randomInt2 = Math.floor(Math.random() * 2) + 1;
+            //  var randomColor1 = Math.floor(Math.random() * 255);
+            //  var randomColor2 = Math.floor(Math.random() * 255);
+            //  var randomColor3 = Math.floor(Math.random() * 255);
+            return (
+              <a
+                className="star"
+                style={{
+                  backgroundImage: `url(${star})`,
+                  left: random2 + "%",
+                  top: random1 + "%",
+                  transform: "scale(" + random3 + "%) rotation("+ random4+ "deg)",
+                }}
+                href={`/symbolsJournal/${symbol}/${journalMode}`}
+              >
+              </a>
+            );
+          })}
         </div>
       )}
     </div>
