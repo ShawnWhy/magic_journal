@@ -42,15 +42,16 @@ return (
       <div>Magic journal</div>
     </div>
     <div className="menuRow">
-      
-        <Link to="/">Home Page</Link>
-      
-        <Link className="margin title_link2 title_link" to="/Calendar">
-          Calendar
-        </Link>
-      
+      <Link to="/">Home Page</Link>
+
+      <Link className="margin title_link2 title_link" to="/Calendar">
+        Calendar
+      </Link>
 
       <div
+        style={{
+          pointerEvents: "none",
+        }}
         className={
           loggedIn === false ? "visible title_link3 title_link" : "invisible"
         }
@@ -65,6 +66,9 @@ return (
         </a>
       </div>
       <div
+        style={{
+          pointerEvents: "none",
+        }}
         className={
           loggedIn === false ? "visible title_link4 title_link" : "invisible"
         }
@@ -79,6 +83,9 @@ return (
         </a>
       </div>
       <div
+        style={{
+          pointerEvents: "none",
+        }}
         className={
           loggedIn === false
             ? "invisible "
@@ -95,7 +102,12 @@ return (
         </a>
       </div>
 
-      <div className="margin title_link4 title_link">
+      <div
+        style={{
+          pointerEvents: "none",
+        }}
+        className="margin title_link4 title_link"
+      >
         <Link to="/contact">Contact</Link>
       </div>
     </div>

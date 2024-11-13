@@ -235,6 +235,8 @@ background: linear-gradient(0deg, rgba(87,89,70,1) 1%, rgba(0,0,0,1) 100%);
     height:20%;
     width:100%;
     top:-10%;
+    pointer-events: none;
+    z-index:2;
 }
 .star{
     position:absolute;
@@ -242,7 +244,8 @@ background: linear-gradient(0deg, rgba(87,89,70,1) 1%, rgba(0,0,0,1) 100%);
     width:50px;
     background-repeat: no-repeat;
     background-size: cover;
-    animation:twinkle 1s infinite
+    animation:twinkle 1s infinite;
+    pointer-events: all ! important;
 }
 
 @keyframes twinkle {
