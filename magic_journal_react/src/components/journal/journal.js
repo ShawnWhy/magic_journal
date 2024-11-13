@@ -328,7 +328,13 @@ const [countDown, setCountDown] =useState(0)
       <div className={"col-12 " + journalMode + " topRow"}>
         <div className="modeSelectJournal">
           {journalModes.map((mode) => (
-            <button onClick={() => setJournalMode(mode)}>{mode}</button>
+            <button onClick={() =>{ 
+              if(mode!==journalMode){
+                setDreamSymbols([])
+                
+              }
+              setJournalMode(mode)
+            }}>{mode}</button>
           ))}
         </div>
       </div>

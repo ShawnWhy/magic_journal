@@ -46,8 +46,9 @@ const DaysJournal = function (props) {
         return (
           <div>
             <p className="journalWriting">
-              {journal.writing}
+             {journal.date} : {journal.writing}
               </p>
+              <div className="symbolsList">
             {journal.symbols.length>0
               ? journal.symbols.split(',').map((symbol) => {
                   return (
@@ -57,6 +58,7 @@ const DaysJournal = function (props) {
                   );
                 })
               : journal.symbols}
+          </div>
           </div>
         );
       })}

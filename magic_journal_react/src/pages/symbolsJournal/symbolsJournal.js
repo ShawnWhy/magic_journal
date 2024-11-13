@@ -165,9 +165,11 @@ const SymbolsJournal = (props) => {
           case "journal":
             return (
               <div>
-                <p>{journal.writing}</p>
+                <p>
+                  {journal.date} : {journal.writing}
+                </p>
                 {symbols.length > 0 && (
-                  <p>
+                  <p className="symbolsList">
                     {symbols.map((symbol) => {
                       return (
                         <a href={`/symbolsJournal/${symbol}/journal`}>
@@ -183,9 +185,11 @@ const SymbolsJournal = (props) => {
           case "dreams":
             return (
               <div>
-                <p>{journal.dream}</p>
+                <p>
+                  {journal.date} : {journal.dream}
+                </p>
                 {symbols.length > 0 && (
-                  <p>
+                  <p className="symbolsList">
                     {symbols.map((symbol) => {
                       return (
                         <a href={`/symbolsJournal/${symbol}/dreams`}>
@@ -210,9 +214,9 @@ const SymbolsJournal = (props) => {
           case "readings":
             return (
               <div>
-                <p>{journal.ReadingText}</p>
+                <p>{journal.Date} : {journal.ReadingText}</p>
                 {symbols.length > 0 && (
-                  <p>
+                 <p className="symbolsList">
                     {symbols.map((symbol) => {
                       return (
                         <a href={`/symbolsJournal/${symbol}/readings`}>
